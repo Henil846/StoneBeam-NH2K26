@@ -1,0 +1,50 @@
+mutation CreateDemoUser @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  user_insert(data: {
+    id: "550e8400-e29b-41d4-a716-446655440000",
+    phoneNumber: "555-123-4567",
+    userType: "admin",
+    createdAt: "2024-01-01T00:00:00Z"
+  })
+}
+
+query ListAllServices @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  services {
+    id
+    name
+    description
+    priceRange
+    categories
+  }
+}
+
+query GetProjectDetails($id: UUID!) @auth(level: USER) {
+  project(id: $id) {
+    id
+    name
+    description
+    budget
+    startDate
+    endDate
+    status
+    company {
+      id
+      name
+    }
+    clientUser {
+      id
+      displayName
+    }
+    projectServices_on_project {
+      agreedPrice
+      quantity
+      service {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation UpdateProjectStatus($id: UUID!, $status: String!) @auth(level: USER) {
+  project_update(key: {id: $id}, data: {status: $status})
+}
