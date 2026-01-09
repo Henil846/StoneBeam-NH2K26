@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login | StoneBeam-NH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script src="auth-manager.js"></script>
+    <script>
+        // Check for new user info from signup
+        window.addEventListener('load', function () {
+            const newUserInfo = sessionStorage.getItem('newUserInfo');
+            if (newUserInfo) {
+                const userData = JSON.parse(newUserInfo);
+                document.getElementById('welcome-title').textContent = `Welcome ${userData.name}!`;
+                document.getElementById('welcome-subtitle').textContent = 'Your account has been created. Please login to continue.';
+
+                // Pre-fill email field
+                document.getElementById('loginInput').value = userData.email;
+
+                // Clear the newUserInfo after use
+                sessionStorage.removeItem('newUserInfo');
+            }
+
+            // Check if Firebase is loaded
+            setTimeout(function () {
+                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    console.log('Firebase loaded successfully');
+                } else {
+                    console.error('Firebase failed to load');
+                }
+            }, 1000);
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="auth-card">
+        <div class="header">
+            <h2 id="welcome-title">Welcome Back</h2>
+            <p id="welcome-subtitle">Login to your portal</p>
+        </div>
+
+        <div id="error-msg" class="msg-box error"></div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="loginInput" placeholder="Enter your email" required>
+                <div id="email-error" class="error-msg"></div>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="Enter password" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePass('loginPass', this)"></i>
+                <div id="pass-error" class="error-msg"></div>
+            </div>
+
+            <a href="forgot-password.html" class="forgot-pass">Forgot Password?</a>
+
+            <button type="submit" class="gradient-btn">Login Now</button>
+        </form>
+
+        <div class="links">
+            <p>New here? <a href="signup.html">Create Account</a></p>
+            <p><a href="dealer-login.html" style="color:#8e44ad;font-weight:600">Dealer Login</a></p>
+        </div>
+    </div>
+
+    <script>
+        function togglePass(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+    <script src="firebase.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="login.js"></script>
+</body>
+
+</html>

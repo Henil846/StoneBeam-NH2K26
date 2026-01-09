@@ -1,0 +1,26 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#f6f8fb;color:#111}
+.dealer-header{display:flex;align-items:center;gap:16px;padding:20px 24px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,0.04)}
+.dealer-header h1{margin:0;font-size:1.3rem}
+.home-link{color:#8e44ad;text-decoration:none;font-weight:600}
+.dealer-main{max-width:1200px;margin:28px auto;padding:20px}
+.dealer-main h2{margin-bottom:20px;color:#8e44ad}
+.order-card{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid #f0f0f0}
+.order-id{font-weight:700;color:#8e44ad}
+.order-date{color:#6b7280;font-size:0.9rem}
+.items-table{width:100%;border-collapse:collapse;margin-bottom:15px}
+.items-table th{background:#f9fafb;padding:10px;text-align:left;font-weight:600;border-bottom:2px solid #e5e7eb}
+.items-table td{padding:10px;border-bottom:1px solid #f0f0f0}
+.rate-input{width:120px;padding:6px 8px;border:1px solid #d1d5db;border-radius:4px}
+.rate-input[readonly]{background:#f3f4f6;cursor:not-allowed}
+.delivery-input{width:120px;padding:6px 8px;border:1px solid #d1d5db;border-radius:4px}
+.delivery-input[readonly]{background:#f3f4f6;cursor:not-allowed}
+.total-row{display:flex;justify-content:flex-end;align-items:center;gap:15px;padding:10px;background:#f9fafb;border-radius:6px;font-weight:700;font-size:1.1rem}
+.submit-btn{background:#0b8a4e;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:600;margin-top:10px}
+.submit-btn:hover{background:#096d3e}
+.no-orders{text-align:center;padding:40px;color:#6b7280}
+.status-badge{display:inline-block;padding:4px 12px;border-radius:12px;font-size:0.85rem;font-weight:600;margin-left:10px}
+.status-accepted{background:#d1fae5;color:#065f46}
+.status-rejected{background:#fee2e2;color:#991b1b}
+.status-pending{background:#fef3c7;color:#92400e}

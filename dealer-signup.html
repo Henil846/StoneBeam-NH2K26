@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Signup | StoneBeam-NH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="auth-card">
+        <div class="header">
+            <h2>Create Dealer Account</h2>
+            <p>Join as a construction dealer</p>
+        </div>
+
+        <div id="msg-box" class="msg-box"></div>
+
+        <form id="signupForm">
+            <div class="input-group">
+                <label>Business Name</label>
+                <input type="text" id="businessName" placeholder="Your Business Name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Contact Person Name</label>
+                <input type="text" id="contactName" placeholder="Contact Person" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="business@example.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" placeholder="98765 43210" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Create Password" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePass('password', this)"></i>
+            </div>
+
+            <button type="submit" class="gradient-btn">Create Dealer Account</button>
+        </form>
+
+        <div class="links">
+            <p>Already a dealer? <a href="dealer-login.html">Login</a></p>
+        </div>
+    </div>
+
+    <script>
+        function togglePass(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const businessName = document.getElementById('businessName').value;
+            const contactName = document.getElementById('contactName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            
+            // Check if dealer already exists
+            let dealers = JSON.parse(localStorage.getItem('sb_dealers') || '[]');
+            if (dealers.some(d => d.email === email)) {
+                showMsg('Email already registered', 'error');
+                return;
+            }
+            
+            // Create new dealer
+            const newDealer = {
+                id: Date.now().toString(),
+                businessName,
+                contactName,
+                email,
+                phone,
+                password,
+                createdAt: new Date().toISOString()
+            };
+            
+            dealers.push(newDealer);
+            localStorage.setItem('sb_dealers', JSON.stringify(dealers));
+            
+            showMsg('Dealer account created successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = 'dealer-login.html';
+            }, 1500);
+        });
+
+        function showMsg(text, type) {
+            const msgBox = document.getElementById('msg-box');
+            msgBox.style.display = 'block';
+            msgBox.className = 'msg-box ' + type;
+            msgBox.textContent = text;
+        }
+    </script>
+</body>
+</html>

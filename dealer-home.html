@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Dashboard - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script>
+        const currentDealer = sessionStorage.getItem('sb_currentDealer');
+        if (!currentDealer) {
+            alert('Please login as dealer');
+            window.location.href = 'dealer-login.html';
+        }
+    </script>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH Dealer
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-home.html" class="active">Home</a></li>
+            <li><a href="dealer-orders-pending.html">Orders Pending</a></li>
+            <li><a href="dealer.html">All Orders</a></li>
+            <li><a href="prepare-quotations.html">Prepare Quote</a></li>
+            <li><a href="upload-quotations.html">Upload Quote</a></li>
+            <li><a href="help_support.html">Services</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="dealer-profile-dropdown">
+                <div class="dealer-profile-btn" onclick="toggleDealerProfile()">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span id="dealer-name">Dealer Panel</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="dealer-dropdown" id="dealerDropdown">
+                    <div class="dealer-info">
+                        <div class="dealer-avatar">D</div>
+                        <div class="dealer-details">
+                            <span class="dealer-name" id="dropdown-dealer-name">Dealer Name</span>
+                            <span class="dealer-email" id="dropdown-dealer-email">dealer@example.com</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="dealer-profile.html" class="dropdown-item">
+                        <i class="fa-solid fa-user-tie"></i> View Profile
+                    </a>
+                    <a href="prepare-quotations.html" class="dropdown-item">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Create Quotation
+                    </a>
+                    <a href="#" class="dropdown-item" onclick="logout()">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Grow Your Business,<br><span class="gradient-text">Order By Order</span></h1>
+                <p>Find new projects, submit quotations, and manage orders efficiently with our dealer platform.</p>
+                
+              <div class="hero-buttons">
+                    <a href="dealer-orders-pending.html" class="btn-primary"><i class="fa-solid fa-hourglass-half"></i> <span>Orders Pending</span></a>
+                    <a href="dealer.html" class="btn-secondary"><i class="fa-regular fa-folder-open"></i> <span>All Orders</span></a>
+                </div>
+            </div>
+
+            <div class="floating-badge">
+                <div class="badge-text">
+                    <span>Active Orders</span>
+                    <strong> <i class="fa-solid fa-box"></i></strong>
+                </div>
+                <div class="badge-text">
+                    <span>Rating</span>
+                    <strong> <i class="fa-solid fa-star"></i></strong>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="stats-bar">
+        <div class="stat-pill">
+            <i class="fa-solid fa-scroll"></i>
+            <div class="stat-info">
+                <span>Quotations Submitted</span>
+                <strong>50+</strong>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <i class="fa-solid fa-check-circle"></i>
+            <div class="stat-info">
+                <span>Orders Completed</span>
+                <strong>35+</strong>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <i class="fa-solid fa-star"></i>
+            <div class="stat-info">
+                <span>Customer Rating</span>
+                <strong>4.8/5</strong>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <i class="fa-solid fa-clock"></i>
+            <div class="stat-info">
+                <span>Response Time</span>
+                <strong>2 hrs</strong>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+        
+        <div class="content-header">
+            <h2>Quick Actions</h2>
+        </div>
+
+        <div class="grid-row">
+            <div class="cards-column">
+                <div class="service-card" style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Orders Pending</h3>
+                        <p>Review and respond to pending project orders requiring your attention.</p>
+                        <a href="dealer-orders-pending.html" class="details-link">View Pending Orders &longrightarrow;</a>
+                    </div>
+                </div>
+                <div class="service-card" style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>All Orders</h3>
+                        <p>Track all your submitted quotations and order status.</p>
+                        <a href="dealer.html" class="details-link">View All Orders &longrightarrow;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-column">
+                <div class="sidebar-panel quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-grid">
+                        <div class="action-item" onclick="window.location.href='dealer-orders-pending.html'">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                            <span>Orders Pending</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='dealer.html'">
+                            <i class="fa-regular fa-file-alt"></i>
+                            <span>All Orders</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='prepare-quotations.html'">
+                            <i class="fa-solid fa-file-alt"></i>
+                            <span>Prepare Quotation</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='upload-quotations.html'">
+                            <i class="fa-solid fa-cloud-upload-alt"></i>
+                            <span>Upload Quotation</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='premium.html'">
+                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            <span>Premium</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='help_support.html'">
+                            <i class="fa-solid fa-headset"></i>
+                            <span>Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management. Bringing digital efficiency to the job site.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="help_support.html">Help Center</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope"></i> <a href="mailto:stonebeamnh@gmail.com" style="color: inherit;">stonebeamnh@gmail.com</a></p>
+                <p><i class="fa-solid fa-phone"></i> <a href="tel:+919106120047" style="color: inherit; text-decoration: none;">+91-9106120047</a> / <a href="tel:+917043297992" style="color: inherit; text-decoration: none;">+91-7043297992</a></p>
+                <p><i class="fa-solid fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=Ahmedabad,Gujarat,India" target="_blank" style="color: inherit; text-decoration: none;">Ahmedabad, Gujarat</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span><a href="privacy.html">Privacy Policy</a></span>
+            <span><a href="terms.html"> Terms of Service</a></span>
+        </div>
+    </footer>
+</body>
+</html>
+    <script>
+        function toggleDealerProfile() {
+            const dropdown = document.getElementById('dealerDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'dealer-login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dealer-profile-dropdown')) {
+                document.getElementById('dealerDropdown').classList.remove('show');
+            }
+        });
+
+        // Load dealer info
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDealer = JSON.parse(sessionStorage.getItem('sb_currentDealer'));
+            if (currentDealer) {
+                document.getElementById('dealer-name').textContent = currentDealer.name || currentDealer.businessName || 'Dealer';
+                document.getElementById('dropdown-dealer-name').textContent = currentDealer.name || currentDealer.businessName || 'Dealer Name';
+                document.getElementById('dropdown-dealer-email').textContent = currentDealer.email || 'dealer@example.com';
+                document.querySelector('.dealer-avatar').textContent = (currentDealer.name || currentDealer.businessName || 'D').charAt(0).toUpperCase();
+            }
+        });
+    </script>

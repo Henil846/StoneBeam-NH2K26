@@ -1,0 +1,591 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+    --primary-black: #111111;     /* Deep Black */
+    --secondary-black: #1a1a1a;   /* Slightly lighter black for cards/forms */
+    --accent-red: #D32F2F;        /* Strong Construction Red */
+    --hover-red: #b71c1c;         /* Darker red for hover states */
+    --bg-light: #f4f4f4;          /* Light gray for main background */
+    --text-dark: #333333;
+    --text-light: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+/* Container utility */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* =========================================
+   2. HEADER STYLING
+   ========================================= */
+.site-header {
+    background-color: var(--primary-black);
+    padding: 20px 0;
+    border-bottom: 4px solid var(--accent-red);
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styling the 'PREMIUM' text to be Red */
+.gold-text {
+    color: var(--accent-red);
+    font-weight: 900;
+    margin-left: 5px;
+}
+
+.site-header nav a {
+    color: #bbb;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.site-header nav a:hover,
+.site-header nav a.active {
+    color: var(--accent-red);
+}
+
+/* =========================================
+   3. HERO SECTION
+   ========================================= */
+.premium-hero {
+    /* Background image with dark overlay */
+    background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1542317854-3b5f4b5c0f10?auto=format&fit=crop&w=1600&q=60');
+    background-size: cover;
+    background-position: center center;
+    color: var(--text-light);
+    text-align: center;
+    padding: 100px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.premium-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+.premium-hero p {
+    font-size: 1.2rem;
+    color: #ccc;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-red);
+    color: var(--text-light);
+    padding: 15px 40px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid var(--accent-red);
+    transition: all 0.3s ease;
+}
+
+.cta-outline {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 14px 34px;
+    border: 2px solid rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.cta-button:hover {
+    background-color: transparent;
+    color: var(--accent-red);
+}
+
+/* =========================================
+   4. POLICY GRID (The Cards)
+   ========================================= */
+main {
+    margin-top: -50px; /* Pulls content up over the hero slightly */
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns side-by-side */
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-top: 6px solid var(--accent-red); /* Red Line on top */
+    border-radius: 4px;
+}
+/* make cards interactive */
+.card {
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.card:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(0,0,0,0.12); }
+
+.icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    /* Optional: Turn the emoji grayscale to fit the serious theme */
+    filter: grayscale(100%); 
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    color: var(--primary-black);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.summary {
+    color: var(--accent-red);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+/* List Styling inside Cards */
+.details ul {
+    list-style: none;
+    margin: 20px 0;
+}
+
+.details li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-left: 4px solid var(--primary-black);
+}
+
+.note {
+    font-size: 0.85rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* Highlight Box for Cancellation (50% Fee) */
+.highlight-box {
+    background-color: #ffebeb; /* Very pale red */
+    border: 1px solid var(--accent-red);
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.highlight-box h3 {
+    color: var(--accent-red);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   5. QUOTATION FORM
+   ========================================= */
+.quote-section {
+    background-color: var(--primary-black);
+    color: var(--text-light);
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 80px auto;
+    border-radius: 4px;
+    border-bottom: 6px solid var(--accent-red);
+}
+
+.quote-section h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.quote-section p {
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.premium-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.premium-form input {
+    padding: 15px;
+    border: none;
+    background-color: #333; /* Dark input fields */
+    color: white;
+    font-size: 1rem;
+    border-bottom: 2px solid #555;
+}
+
+.premium-form input:focus {
+    outline: none;
+    background-color: #444;
+    border-bottom-color: var(--accent-red);
+}
+
+.premium-form button {
+    padding: 15px;
+    background-color: var(--accent-red);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.premium-form button:hover {
+    background-color: var(--hover-red);
+}
+
+/* =========================================
+   6. FOOTER
+   ========================================= */
+footer {
+    background-color: var(--secondary-black);
+    color: #777;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. Header Stacking */
+    .header-flex {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* 2. Hero Text Size */
+    .premium-hero h1 {
+        font-size: 2rem;
+    }
+
+    /* 3. Cards Stack Vertically */
+    .policy-grid {
+        grid-template-columns: 1fr; /* One column instead of two */
+    }
+
+    /* 4. Main spacing */
+    main {
+        margin-top: 0; /* Remove the overlap on mobile for cleaner look */
+        padding-top: 40px;
+    }
+
+    .quote-section {
+        padding: 40px 20px;
+    }
+}
+a { color: inherit; }
+
+/* Pricing section styles */
+.pricing-section { padding: 60px 0; text-align: center; }
+.pricing-section h2 { font-size: 2rem; margin-bottom: 6px; text-transform: uppercase; }
+.pricing-section .muted { color: #666; margin-bottom: 28px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto 60px; }
+.pricing-card { background: #fff; padding: 26px; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 4px solid #eee; }
+.pricing-card.recommended { border-top-color: var(--accent-red); transform: scale(1.03); }
+.pricing-card h3 { margin-bottom: 8px; text-transform: uppercase; }
+.price { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+.price span { font-size: 0.8rem; color: #777; font-weight: 600; }
+.pricing-card ul { list-style: none; padding: 0; margin: 12px 0 18px; color: #444; }
+.pricing-card li { padding: 6px 0; }
+.pricing-card .select-plan { background: var(--accent-red); color: white; padding: 12px 18px; border: none; cursor: pointer; border-radius: 4px; }
+.pricing-card .select-plan:hover { background: var(--hover-red); }
+
+@media (max-width: 980px) { .pricing-grid { grid-template-columns: 1fr; } .pricing-card.recommended { transform: none; } }
+a:link{text-decoration: none;}
+a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:active { text-decoration: none; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Payment Modal Styles */
+.payment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.payment-modal.active {
+    display: flex;
+}
+
+.payment-content {
+    background: #fff;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.payment-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close-payment {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.payment-body {
+    padding: 25px;
+}
+
+.plan-summary {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+    color: white;
+}
+
+.plan-summary h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+}
+
+.price-display {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.price-display span {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.payment-methods h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.payment-options {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    border-color: #667eea;
+    background: #f8f9ff;
+}
+
+.payment-option.active {
+    border-color: #667eea;
+    background: #f8f9ff;
+}
+
+.payment-option i {
+    font-size: 1.5rem;
+    color: #667eea;
+}
+
+.payment-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.pay-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.pay-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.qr-section {
+    text-align: center;
+}
+
+.qr-code {
+    display: inline-block;
+    padding: 20px;
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.qr-code img {
+    width: 150px;
+    height: 150px;
+}
+
+.upi-input {
+    text-align: center;
+    font-family: monospace;
+}
+
+.paypal-section {
+    text-align: center;
+}
+
+.paypal-logo {
+    margin: 20px 0;
+}
+
+.payment-details {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.detail-row:last-child {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.paypal-btn {
+    background: #0070ba;
+}
+
+.paypal-btn:hover {
+    background: #005ea6;
+    box-shadow: 0 10px 25px rgba(0, 112, 186, 0.4);
+}
+
+@media (max-width: 768px) {
+    .payment-content {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .payment-body {
+        padding: 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .qr-code img {
+        width: 120px;
+        height: 120px;
+    }
+}

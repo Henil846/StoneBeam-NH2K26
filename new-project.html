@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Project - StoneBeam-NH</title>
+    <link rel="stylesheet" href="new-project.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script>
+        // Check if user is logged in
+        const currentUser = sessionStorage.getItem('sb_currentUser');
+        if (!currentUser) {
+            alert('Please login to create a project');
+            window.location.href = 'login.html';
+        }
+    </script>
+    <header class="np-header">
+        <a href="index.html" class="home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+        <h1>Create New Project</h1>
+    </header>
+
+    <main class="np-main">
+        <p class="hint">Start with one field — use "Add Field" to add more.</p>
+
+        <form id="project-form" class="project-form" action="#" onsubmit="return false;">
+            <div class="field-row" style="flex-direction:column;align-items:stretch;margin-bottom:20px">
+                <label style="width:100%;margin-bottom:8px;font-weight:600">Delivery Address *</label>
+                <textarea id="delivery-address" placeholder="Enter complete delivery address" required style="width:100%;padding:10px;border:1px solid #e6e9ef;border-radius:6px;min-height:80px;resize:vertical"></textarea>
+            </div>
+            
+            <div id="fields-container">
+                <div class="field-row">
+                    <label>Material 1</label>
+                    <select name="material[]" class="material-select">
+                        <option value="">Select material</option>
+                        <option value="Portland Cement (OPC)">Portland Cement (OPC)</option>
+                        <option value="Portland Pozzolana Cement (PPC)">Portland Pozzolana Cement (PPC)</option>
+                        <option value="Hydraulic Lime">Hydraulic Lime</option>
+                        <option value="Sand (River)">Sand (River)</option>
+                        <option value="Sand (Pit)">Sand (Pit)</option>
+                        <option value="Fine Aggregate">Fine Aggregate</option>
+                        <option value="Coarse Aggregate">Coarse Aggregate</option>
+                        <option value="Gravel">Gravel</option>
+                        <option value="Crushed Stone">Crushed Stone</option>
+                        <option value="Crushed Rock">Crushed Rock</option>
+                        <option value="Limestone">Limestone</option>
+                        <option value="Crushed Granite">Crushed Granite</option>
+                        <option value="Basalt">Basalt</option>
+                        <option value="Concrete (Ready Mix)">Concrete (Ready Mix)</option>
+                        <option value="Concrete Blocks">Concrete Blocks</option>
+                        <option value="AAC Blocks">AAC Blocks</option>
+                        <option value="Facing Bricks">Facing Bricks</option>
+                        <option value="Clay Bricks">Clay Bricks</option>
+                        <option value="Engineering Bricks">Engineering Bricks</option>
+                        <option value="Fire Bricks">Fire Bricks</option>
+                        <option value="Reinforcement Bars (TMT)">Reinforcement Bars (TMT)</option>
+                        <option value="Mild Steel (MS)">Mild Steel (MS)</option>
+                        <option value="Structural Steel (I-beam)">Structural Steel (I-beam)</option>
+                        <option value="Steel Plates">Steel Plates</option>
+                        <option value="Steel Channels">Steel Channels</option>
+                        <option value="Steel Angles">Steel Angles</option>
+                        <option value="Hollow Structural Sections (HSS)">Hollow Structural Sections (HSS)</option>
+                        <option value="Timber (Sawn)">Timber (Sawn)</option>
+                        <option value="Timber (Planks)">Timber (Planks)</option>
+                        <option value="Plywood">Plywood</option>
+                        <option value="Marine Plywood">Marine Plywood</option>
+                        <option value="MDF (Medium Density Fibreboard)">MDF (Medium Density Fibreboard)</option>
+                        <option value="OSB (Oriented Strand Board)">OSB (Oriented Strand Board)</option>
+                        <option value="Particle Board">Particle Board</option>
+                        <option value="Formwork Panels (Plywood)">Formwork Panels (Plywood)</option>
+                        <option value="Shuttering (Steel)">Shuttering (Steel)</option>
+                        <option value="Glass (Float)">Glass (Float)</option>
+                        <option value="Glass (Tempered)">Glass (Tempered)</option>
+                        <option value="Glass (Laminated)">Glass (Laminated)</option>
+                        <option value="Windows (Aluminium)">Windows (Aluminium)</option>
+                        <option value="uPVC Profiles">uPVC Profiles</option>
+                        <option value="Paint (Emulsion)">Paint (Emulsion)</option>
+                        <option value="Paint (Enamel)">Paint (Enamel)</option>
+                        <option value="Primer">Primer</option>
+                        <option value="Wood Stain">Wood Stain</option>
+                        <option value="Tiles (Ceramic)">Tiles (Ceramic)</option>
+                        <option value="Tiles (Vitrified)">Tiles (Vitrified)</option>
+                        <option value="Natural Stone (Marble)">Natural Stone (Marble)</option>
+                        <option value="Natural Stone (Granite)">Natural Stone (Granite)</option>
+                        <option value="Terrazzo">Terrazzo</option>
+                        <option value="Vinyl Flooring">Vinyl Flooring</option>
+                        <option value="Laminate Flooring">Laminate Flooring</option>
+                        <option value="Carpet">Carpet</option>
+                        <option value="Epoxy Floor Coating">Epoxy Floor Coating</option>
+                        <option value="PU Flooring">PU Flooring</option>
+                        <option value="Adhesive (Tile)">Adhesive (Tile)</option>
+                        <option value="Grout">Grout</option>
+                        <option value="Mortar">Mortar</option>
+                        <option value="Cementitious Screed">Cementitious Screed</option>
+                        <option value="Insulation (Mineral Wool)">Insulation (Mineral Wool)</option>
+                        <option value="Insulation (EPS)">Insulation (EPS)</option>
+                        <option value="Insulation (XPS)">Insulation (XPS)</option>
+                        <option value="Thermal Insulation (PIR)">Thermal Insulation (PIR)</option>
+                        <option value="Roofing Sheets (Corrugated)">Roofing Sheets (Corrugated)</option>
+                        <option value="Roof Shingles">Roof Shingles</option>
+                        <option value="Gutters & Downpipes">Gutters & Downpipes</option>
+                        <option value="Waterproofing Membrane (Bituminous)">Waterproofing Membrane (Bituminous)</option>
+                        <option value="Liquid Waterproofing">Liquid Waterproofing</option>
+                        <option value="Sealant (Silicone)">Sealant (Silicone)</option>
+                        <option value="Sealant (Polyurethane)">Sealant (Polyurethane)</option>
+                        <option value="Bitumen">Bitumen</option>
+                        <option value="Asphalt Mix">Asphalt Mix</option>
+                        <option value="Concrete Admixture (Plasticizer)">Concrete Admixture (Plasticizer)</option>
+                        <option value="Superplasticizer">Superplasticizer</option>
+                        <option value="Curing Compound">Curing Compound</option>
+                        <option value="Formwork Oil">Formwork Oil</option>
+                        <option value="Reinforcement Mesh (Welded)">Reinforcement Mesh (Welded)</option>
+                        <option value="Welded Wire Mesh">Welded Wire Mesh</option>
+                        <option value="Anchors (Chemical)">Anchors (Chemical)</option>
+                        <option value="Mechanical Anchors">Mechanical Anchors</option>
+                        <option value="Nails">Nails</option>
+                        <option value="Screws">Screws</option>
+                        <option value="Bolts & Nuts">Bolts & Nuts</option>
+                        <option value="Washers">Washers</option>
+                        <option value="Stainless Steel">Stainless Steel</option>
+                        <option value="Copper">Copper</option>
+                        <option value="Brass">Brass</option>
+                        <option value="Aluminium Sheets">Aluminium Sheets</option>
+                        <option value="Zinc Sheets">Zinc Sheets</option>
+                        <option value="Lead Sheets">Lead Sheets</option>
+                        <option value="Roof Insulation (Foil)">Roof Insulation (Foil)</option>
+                        <option value="Damp Proof Membrane (DPM)">Damp Proof Membrane (DPM)</option>
+                        <option value="Gypsum Board (Plasterboard)">Gypsum Board (Plasterboard)</option>
+                        <option value="Metal Studs & Tracks">Metal Studs & Tracks</option>
+                        <option value="Plaster (Cement)">Plaster (Cement)</option>
+                        <option value="Plaster (Lime)">Plaster (Lime)</option>
+                        <option value="Stucco">Stucco</option>
+                        <option value="Jointing Compound">Jointing Compound</option>
+                        <option value="Tile Backer Board">Tile Backer Board</option>
+                        <option value="Water Pipes (PVC)">Water Pipes (PVC)</option>
+                        <option value="Water Pipes (GI)">Water Pipes (GI)</option>
+                        <option value="Drainage Pipes (HDPE)">Drainage Pipes (HDPE)</option>
+                        <option value="CPVC Pipes">CPVC Pipes</option>
+                        <option value="PEX Pipes">PEX Pipes</option>
+                        <option value="Fittings (Plumbing)">Fittings (Plumbing)</option>
+                        <option value="Sanitaryware (Toilet)">Sanitaryware (Toilet)</option>
+                        <option value="Sanitaryware (Basin)">Sanitaryware (Basin)</option>
+                        <option value="Taps & Mixers">Taps & Mixers</option>
+                        <option value="Pumps (Submersible)">Pumps (Submersible)</option>
+                        <option value="Electrical Cables (Power)">Electrical Cables (Power)</option>
+                        <option value="Electrical Cables (Control)">Electrical Cables (Control)</option>
+                        <option value="Conduits (PVC)">Conduits (PVC)</option>
+                        <option value="Switches & Sockets">Switches & Sockets</option>
+                        <option value="Lighting Fixtures">Lighting Fixtures</option>
+                        <option value="Distribution Board (DB)">Distribution Board (DB)</option>
+                        <option value="Switchgear Panels">Switchgear Panels</option>
+                        <option value="Transformers">Transformers</option>
+                        <option value="HVAC Ducting">HVAC Ducting</option>
+                        <option value="Air Handling Unit (AHU)">Air Handling Unit (AHU)</option>
+                        <option value="Chillers">Chillers</option>
+                        <option value="Cooling Towers">Cooling Towers</option>
+                        <option value="Insulation Tape">Insulation Tape</option>
+                        <option value="Electrical Tape">Electrical Tape</option>
+                        <option value="Cable Trays">Cable Trays</option>
+                        <option value="Raised Floor Panels">Raised Floor Panels</option>
+                        <option value="Access Doors">Access Doors</option>
+                        <option value="Metal Stud Framing">Metal Stud Framing</option>
+                        <option value="Scaffolding (Steel)">Scaffolding (Steel)</option>
+                        <option value="Scaffolding (Couplers)">Scaffolding (Couplers)</option>
+                        <option value="Temporary Fencing">Temporary Fencing</option>
+                        <option value="Concrete Pipes">Concrete Pipes</option>
+                        <option value="Manhole Covers">Manhole Covers</option>
+                        <option value="Drainage Chambers">Drainage Chambers</option>
+                        <option value="Topsoil">Topsoil</option>
+                        <option value="Subbase (Crushed Rock)">Subbase (Crushed Rock)</option>
+                        <option value="Geotextile Fabrics">Geotextile Fabrics</option>
+                        <option value="Geogrid">Geogrid</option>
+                        <option value="Landscaping Plants">Landscaping Plants</option>
+                        <option value="Paving Blocks">Paving Blocks</option>
+                        <option value="Concrete Pavers">Concrete Pavers</option>
+                        <option value="Sealant Tape (Butyl)">Sealant Tape (Butyl)</option>
+                        <option value="Fireproofing Coating">Fireproofing Coating</option>
+                        <option value="Intumescent Paint">Intumescent Paint</option>
+                        <option value="Acoustic Panels">Acoustic Panels</option>
+                        <option value="Cable Glands">Cable Glands</option>
+                        <option value="Expansion Joints">Expansion Joints</option>
+                        <option value="Bearing Pads">Bearing Pads</option>
+                        <option value="Prefabricated Units">Prefabricated Units</option>
+                        <option value="Precast Concrete Elements">Precast Concrete Elements</option>
+                        <option value="Stainless Steel Fabrication">Stainless Steel Fabrication</option>
+                        <option value="Galvanized Steel">Galvanized Steel</option>
+                    </select>
+                    <input type="number" name="quantity[]" class="qty-input" placeholder="Qty" min="0" step="any">
+                    <select name="unit[]" class="unit-select" aria-label="Unit">
+                        <option value="">unit</option>
+                        <option value="bag">bag — Bag (50 kg)</option>
+                        <option value="m3">m3 — Cubic meter</option>
+                        <option value="cft">cft — Cubic foot</option>
+                        <option value="kg">kg — Kilogram</option>
+                        <option value="ton">ton — Tonne</option>
+                        <option value="nos">nos — Number / Pieces</option>
+                        <option value="pc">pc — Piece</option>
+                        <option value="sheet">sheet — Sheet</option>
+                        <option value="m">m — Meter</option>
+                        <option value="cm">cm — Centimeter</option>
+                        <option value="mm">mm — Millimeter</option>
+                        <option value="sqm">m2 — Square meter</option>
+                        <option value="sqft">ft2 — Square foot</option>
+                        <option value="ltr">ltr — Litre</option>
+                        <option value="set">set — Set</option>
+                        <option value="pair">pair — Pair</option>
+                        <option value="pack">pack — Pack</option>
+                        <option value="box">box — Box</option>
+                        <option value="roll">roll — Roll</option>
+                        <option value="pallet">pallet — Pallet</option>
+                        <option value="crate">crate — Crate</option>
+                        <option value="pack">pack — Pack</option>
+                        <option value="bundle">bundle — Bundle</option>
+                        <option value="set">set — Set</option>
+                        <option value="each">each — Each</option>
+                    </select>
+                    <button type="button" class="remove-btn" aria-label="Remove field" hidden><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button id="add-field" type="button" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Field</button>
+                <button id="save-btn" type="button" class="btn btn-success">Save</button>
+                <a href="index.html" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </form>
+    </main>
+
+    <script src="new-project.js"></script>
+</body>
+</html>

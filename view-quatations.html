@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Quotations | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        .main-container {
+            padding: 20px 50px;
+        }
+        .quotations-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0;
+        }
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .content-header h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .content-header h1 i {
+            color: #a569bd;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.4);
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+        }
+        .filter-bar {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            border: 1px solid #333;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .filter-group label {
+            color: #a569bd;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            background: #222;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #a569bd;
+        }
+        .quotation-card {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+        }
+        .quotation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(165, 105, 189, 0.2);
+            border-color: #a569bd;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-header h3 {
+            margin: 0;
+            flex: 1;
+            font-size: 1.4rem;
+        }
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: #f39c12; color: #000; }
+        .status-quoted { background: #27ae60; color: #fff; }
+        .status-expired { background: #e74c3c; color: #fff; }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .info-item i {
+            color: #a569bd;
+            width: 16px;
+        }
+        .quotes-section {
+            margin-top: 1.5rem;
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+        }
+        .quotes-section h4 {
+            color: #a569bd;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quote-item {
+            background: rgba(165, 105, 189, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #a569bd;
+            border: 1px solid #555;
+        }
+        .quote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .contractor-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+        .quote-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        .rating {
+            color: #f39c12;
+            font-size: 0.9rem;
+            margin-top: 3px;
+        }
+        .quote-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-accept {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-decline {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-contact {
+            background: #3498db;
+            color: white;
+        }
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 15px;
+            border: 1px solid #333;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+        .empty-state h3 {
+            color: #a569bd;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px;
+            }
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-group {
+                justify-content: space-between;
+            }
+            .project-info {
+                grid-template-columns: 1fr;
+            }
+            .quote-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .quote-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="login.html" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <div class="quotations-container">
+        <div class="content-header">
+            <h1><i class="fa-solid fa-folder-open"></i> My Quotation Requests</h1>
+            <a href="request-quotations.html" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> New Request
+            </a>
+        </div>
+
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Status:</label>
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="quoted">Quoted</option>
+                    <option value="expired">Expired</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Project Type:</label>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="residential">Residential</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="renovation">Renovation</option>
+                    <option value="interior">Interior Design</option>
+                    <option value="landscaping">Landscaping</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Date Range:</label>
+                <input type="date" id="dateFrom">
+                <span>to</span>
+                <input type="date" id="dateTo">
+            </div>
+            <div class="filter-group">
+                <button id="clearFilters" class="btn-small" style="background: #95a5a6; color: white;">
+                    <i class="fa-solid fa-times"></i> Clear
+                </button>
+            </div>
+        </div>
+
+        <div id="quotationsContainer">
+            <!-- Quotations will be loaded here -->
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <i class="fa-solid fa-folder-open"></i>
+            <h3>No Quotation Requests Found</h3>
+            <p>You haven't submitted any quotation requests yet.</p>
+            <a href="request-quotations.html" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Create Your First Request
+            </a>
+        </div>
+    </div>
+
+    <script src="view-quatations.js"></script>
+</body>
+</html>

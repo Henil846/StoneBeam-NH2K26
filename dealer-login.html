@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Login | StoneBeam-NH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="auth-card">
+        <div class="header">
+            <h2>Dealer Login</h2>
+            <p>Login to your dealer portal</p>
+        </div>
+
+        <div id="error-msg" class="msg-box error"></div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="loginInput" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="Enter password" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePass('loginPass', this)"></i>
+            </div>
+
+            <button type="submit" class="gradient-btn">Login Now</button>
+        </form>
+
+        <div class="links">
+            <p>New dealer? <a href="dealer-signup.html">Create Dealer Account</a></p>
+            <p><a href="login.html">User Login</a></p>
+        </div>
+    </div>
+
+    <script>
+        function togglePass(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginInput').value;
+            const password = document.getElementById('loginPass').value;
+            
+            // Simple dealer authentication
+            const dealers = JSON.parse(localStorage.getItem('sb_dealers') || '[]');
+            const dealer = dealers.find(d => d.email === email && d.password === password);
+            
+            if (dealer) {
+                sessionStorage.setItem('sb_currentDealer', JSON.stringify(dealer));
+                localStorage.setItem('sb_hasSeenUserTypeModal', 'true');
+                window.location.href = 'dealer-home.html';
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+                document.getElementById('error-msg').textContent = 'Invalid dealer credentials';
+            }
+        });
+    </script>
+</body>
+</html>

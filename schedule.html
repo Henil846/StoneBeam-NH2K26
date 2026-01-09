@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="schedule.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+            <li><a href="schedule.html" class="active">Schedule</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="login.html" id="login-link" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <div class="schedule-container">
+        <div class="main-container">
+            <div class="schedule-header">
+                <h1><i class="fa-regular fa-calendar-check"></i> Project Schedule</h1>
+                <div class="schedule-actions">
+                    <button class="btn-primary" id="add-task-btn"><i class="fa-solid fa-plus"></i> Add Task</button>
+                    <button class="btn-secondary" id="add-project-btn"><i class="fa-solid fa-folder-plus"></i> New Project</button>
+                </div>
+            </div>
+
+            <div class="schedule-layout">
+                <div class="schedule-sidebar">
+                    <div class="sidebar-widget">
+                        <h3>Quick Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-number" id="total-tasks">0</span>
+                                <span class="stat-label">Total Tasks</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="pending-tasks">0</span>
+                                <span class="stat-label">Pending</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="completed-tasks">0</span>
+                                <span class="stat-label">Completed</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="overdue-tasks">0</span>
+                                <span class="stat-label">Overdue</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3>Project Filter</h3>
+                        <select id="project-filter" class="filter-select">
+                            <option value="all">All Projects</option>
+                        </select>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3>Status Filter</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-status="all">All</button>
+                            <button class="filter-btn" data-status="pending">Pending</button>
+                            <button class="filter-btn" data-status="in-progress">In Progress</button>
+                            <button class="filter-btn" data-status="completed">Completed</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3>Upcoming Deadlines</h3>
+                        <div class="upcoming-tasks" id="upcoming-tasks">
+                            <p class="no-tasks">No upcoming deadlines</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-main">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="calendar"><i class="fa-regular fa-calendar"></i> Calendar</button>
+                        <button class="view-btn" data-view="list"><i class="fa-solid fa-list"></i> List</button>
+                        <button class="view-btn" data-view="gantt"><i class="fa-solid fa-chart-gantt"></i> Timeline</button>
+                    </div>
+
+                    <div class="schedule-content">
+                        <!-- Calendar View -->
+                        <div class="view-content active" id="calendar-view">
+                            <div class="calendar-header">
+                                <button class="nav-btn" id="prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                                <h2 id="current-month">January 2025</h2>
+                                <button class="nav-btn" id="next-month"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid" id="calendar-grid">
+                                <div class="calendar-day-header">Sun</div>
+                                <div class="calendar-day-header">Mon</div>
+                                <div class="calendar-day-header">Tue</div>
+                                <div class="calendar-day-header">Wed</div>
+                                <div class="calendar-day-header">Thu</div>
+                                <div class="calendar-day-header">Fri</div>
+                                <div class="calendar-day-header">Sat</div>
+                            </div>
+                        </div>
+
+                        <!-- List View -->
+                        <div class="view-content" id="list-view">
+                            <div class="task-list" id="task-list">
+                                <div class="no-tasks-message">
+                                    <i class="fa-regular fa-calendar-xmark"></i>
+                                    <h3>No tasks scheduled</h3>
+                                    <p>Click "Add Task" to create your first task</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline View -->
+                        <div class="view-content" id="gantt-view">
+                            <div class="timeline-container">
+                                <div class="timeline-header">
+                                    <div class="timeline-dates" id="timeline-dates"></div>
+                                </div>
+                                <div class="timeline-content" id="timeline-content">
+                                    <div class="no-tasks-message">
+                                        <i class="fa-solid fa-chart-gantt"></i>
+                                        <h3>No projects to display</h3>
+                                        <p>Add tasks with dates to see the timeline</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Task</h2>
+                <button class="close-btn" id="close-modal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <form class="task-form" id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Title *</label>
+                    <input type="text" id="task-title" required placeholder="Enter task title">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-project">Project</label>
+                        <select id="task-project">
+                            <option value="">Select Project</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-start-date">Start Date *</label>
+                        <input type="date" id="task-start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-end-date">End Date *</label>
+                        <input type="date" id="task-end-date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Description</label>
+                    <textarea id="task-description" placeholder="Task description (optional)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-assignee">Assignee</label>
+                    <input type="text" id="task-assignee" placeholder="Assign to team member">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancel-task">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Project Modal -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Project</h2>
+                <button class="close-btn" id="close-project-modal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <form class="project-form" id="project-form">
+                <div class="form-group">
+                    <label for="project-name">Project Name *</label>
+                    <input type="text" id="project-name" required placeholder="Enter project name">
+                </div>
+                <div class="form-group">
+                    <label for="project-description">Description</label>
+                    <textarea id="project-description" placeholder="Project description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="project-start">Start Date</label>
+                        <input type="date" id="project-start">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-end">End Date</label>
+                        <input type="date" id="project-end">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancel-project">Cancel</button>
+                    <button type="submit" class="btn-primary">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="schedule.js"></script>
+</body>
+</html>

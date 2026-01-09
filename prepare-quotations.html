@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepare Quotations - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        .quotation-builder {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #8e44ad;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .items-table th, .items-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .items-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        .items-table input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .add-item-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .remove-item-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .total-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .total-row.final {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 2px solid #333;
+            padding-top: 10px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #8e44ad;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .preview-section {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 20px 0;
+            display: none;
+        }
+        .preview-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #8e44ad;
+            padding-bottom: 20px;
+        }
+        .preview-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        @media (max-width: 768px) {
+            .form-row, .preview-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-home.html">Dashboard</a></li>
+            <li><a href="dealer-orders-pending.html">Orders Pending</a></li>
+            <li><a href="dealer.html">All Orders</a></li>
+            <li><a href="prepare-quotations.html" class="active">Prepare Quote</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="dealer-login.html" onclick="sessionStorage.clear()" class="login-btn">
+                <i class="fa-solid fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+    <div class="quotation-builder">
+        <div class="form-section">
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> Create New Quotation</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="clientName">Client Name *</label>
+                    <input type="text" id="clientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">Client Email *</label>
+                    <input type="email" id="clientEmail" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="clientPhone">Client Phone</label>
+                    <input type="tel" id="clientPhone">
+                </div>
+                <div class="form-group">
+                    <label for="projectType">Project Type *</label>
+                    <select id="projectType" required>
+                        <option value="">Select Project Type</option>
+                        <option value="residential">Residential Construction</option>
+                        <option value="commercial">Commercial Building</option>
+                        <option value="renovation">Renovation</option>
+                        <option value="interior">Interior Design</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectDescription">Project Description *</label>
+                <textarea id="projectDescription" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="validUntil">Valid Until *</label>
+                    <input type="date" id="validUntil" required>
+                </div>
+                <div class="form-group">
+                    <label for="estimatedDays">Estimated Days *</label>
+                    <input type="number" id="estimatedDays" min="1" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><i class="fa-solid fa-list"></i> Quotation Items</h3>
+            <table class="items-table" id="itemsTable">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Rate (₹)</th>
+                        <th>Amount (₹)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsBody">
+                    <tr>
+                        <td><input type="text" placeholder="Item description" class="item-desc"></td>
+                        <td><input type="number" placeholder="1" class="item-qty" min="1" value="1"></td>
+                        <td><input type="text" placeholder="Unit" class="item-unit"></td>
+                        <td><input type="number" placeholder="0.00" class="item-rate" min="0" step="0.01"></td>
+                        <td class="item-amount">0.00</td>
+                        <td><button type="button" class="remove-item-btn" onclick="removeItem(this)">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="add-item-btn" onclick="addItem()"><i class="fa-solid fa-plus"></i> Add Item</button>
+        </div>
+
+        <div class="form-section">
+            <div class="total-section">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0.00</span>
+                </div>
+                <div class="total-row">
+                    <span>Tax (18% GST):</span>
+                    <span id="tax">₹0.00</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total Amount:</span>
+                    <span id="totalAmount">₹0.00</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="terms">Terms & Conditions</label>
+                <textarea id="terms" rows="4" placeholder="Enter terms and conditions...">1. 50% advance payment required
+2. Balance payment on completion
+3. Material cost may vary based on market rates
+4. Timeline subject to weather conditions</textarea>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button type="button" class="btn btn-secondary" onclick="previewQuotation()"><i class="fa-solid fa-eye"></i> Preview</button>
+            <button type="button" class="btn btn-primary" onclick="saveQuotation()"><i class="fa-solid fa-save"></i> Save Draft</button>
+            <button type="button" class="btn btn-success" onclick="generateQuotation()"><i class="fa-solid fa-file-pdf"></i> Generate PDF</button>
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <div class="preview-header">
+                <h2>QUOTATION</h2>
+                <p><strong>StoneBeam-NH Construction Services</strong></p>
+                <p>Email: dealer@stonebeamnh.com | Phone: +91-9106120047</p>
+            </div>
+            <div class="preview-details">
+                <div>
+                    <h4>Bill To:</h4>
+                    <p id="previewClient"></p>
+                </div>
+                <div>
+                    <h4>Quotation Details:</h4>
+                    <p><strong>Date:</strong> <span id="previewDate"></span></p>
+                    <p><strong>Valid Until:</strong> <span id="previewValid"></span></p>
+                    <p><strong>Project:</strong> <span id="previewProject"></span></p>
+                </div>
+            </div>
+            <div id="previewItems"></div>
+            <div id="previewTotals"></div>
+            <div id="previewTerms"></div>
+        </div>
+    </div>
+
+    <script>
+        let itemCount = 1;
+        
+        function addItem() {
+            const tbody = document.getElementById('itemsBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" placeholder="Item description" class="item-desc"></td>
+                <td><input type="number" placeholder="1" class="item-qty" min="1" value="1"></td>
+                <td><input type="text" placeholder="Unit" class="item-unit"></td>
+                <td><input type="number" placeholder="0.00" class="item-rate" min="0" step="0.01"></td>
+                <td class="item-amount">0.00</td>
+                <td><button type="button" class="remove-item-btn" onclick="removeItem(this)">Remove</button></td>
+            `;
+            tbody.appendChild(row);
+            attachItemListeners(row);
+            itemCount++;
+        }
+        
+        function removeItem(btn) {
+            if (document.querySelectorAll('#itemsBody tr').length > 1) {
+                btn.closest('tr').remove();
+                calculateTotals();
+            }
+        }
+        
+        function attachItemListeners(row) {
+            const qtyInput = row.querySelector('.item-qty');
+            const rateInput = row.querySelector('.item-rate');
+            
+            [qtyInput, rateInput].forEach(input => {
+                input.addEventListener('input', () => {
+                    const qty = parseFloat(qtyInput.value) || 0;
+                    const rate = parseFloat(rateInput.value) || 0;
+                    const amount = qty * rate;
+                    row.querySelector('.item-amount').textContent = amount.toFixed(2);
+                    calculateTotals();
+                });
+            });
+        }
+        
+        function calculateTotals() {
+            let subtotal = 0;
+            document.querySelectorAll('.item-amount').forEach(cell => {
+                subtotal += parseFloat(cell.textContent) || 0;
+            });
+            
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+            
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+            document.getElementById('totalAmount').textContent = `₹${total.toFixed(2)}`;
+        }
+        
+        function previewQuotation() {
+            const preview = document.getElementById('previewSection');
+            const clientName = document.getElementById('clientName').value;
+            const clientEmail = document.getElementById('clientEmail').value;
+            const clientPhone = document.getElementById('clientPhone').value;
+            const projectType = document.getElementById('projectType').value;
+            const validUntil = document.getElementById('validUntil').value;
+            
+            document.getElementById('previewClient').innerHTML = `
+                <strong>${clientName}</strong><br>
+                ${clientEmail}<br>
+                ${clientPhone}
+            `;
+            
+            document.getElementById('previewDate').textContent = new Date().toLocaleDateString();
+            document.getElementById('previewValid').textContent = new Date(validUntil).toLocaleDateString();
+            document.getElementById('previewProject').textContent = projectType;
+            
+            // Preview items
+            let itemsHTML = '<table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Rate</th><th>Amount</th></tr></thead><tbody>';
+            document.querySelectorAll('#itemsBody tr').forEach(row => {
+                const desc = row.querySelector('.item-desc').value;
+                const qty = row.querySelector('.item-qty').value;
+                const unit = row.querySelector('.item-unit').value;
+                const rate = row.querySelector('.item-rate').value;
+                const amount = row.querySelector('.item-amount').textContent;
+                
+                if (desc) {
+                    itemsHTML += `<tr><td>${desc}</td><td>${qty}</td><td>${unit}</td><td>₹${rate}</td><td>₹${amount}</td></tr>`;
+                }
+            });
+            itemsHTML += '</tbody></table>';
+            document.getElementById('previewItems').innerHTML = itemsHTML;
+            
+            // Preview totals
+            document.getElementById('previewTotals').innerHTML = `
+                <div class="total-section">
+                    <div class="total-row"><span>Subtotal:</span><span>${document.getElementById('subtotal').textContent}</span></div>
+                    <div class="total-row"><span>Tax (18% GST):</span><span>${document.getElementById('tax').textContent}</span></div>
+                    <div class="total-row final"><span>Total Amount:</span><span>${document.getElementById('totalAmount').textContent}</span></div>
+                </div>
+            `;
+            
+            // Preview terms
+            document.getElementById('previewTerms').innerHTML = `
+                <h4>Terms & Conditions:</h4>
+                <p style="white-space: pre-line;">${document.getElementById('terms').value}</p>
+            `;
+            
+            preview.style.display = 'block';
+            preview.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function saveQuotation() {
+            const quotationData = collectQuotationData();
+            const quotations = JSON.parse(localStorage.getItem('sb_quotations') || '[]');
+            quotationData.id = Date.now().toString();
+            quotationData.status = 'draft';
+            quotationData.createdAt = new Date().toISOString();
+            
+            quotations.push(quotationData);
+            localStorage.setItem('sb_quotations', JSON.stringify(quotations));
+            
+            alert('Quotation saved as draft!');
+        }
+        
+        function generateQuotation() {
+            const quotationData = collectQuotationData();
+            if (!validateQuotation(quotationData)) return;
+            
+            const quotations = JSON.parse(localStorage.getItem('sb_quotations') || '[]');
+            quotationData.id = Date.now().toString();
+            quotationData.status = 'sent';
+            quotationData.createdAt = new Date().toISOString();
+            
+            quotations.push(quotationData);
+            localStorage.setItem('sb_quotations', JSON.stringify(quotations));
+            
+            // Generate PDF
+            generatePDF(quotationData);
+        }
+        
+        function generatePDF(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(142, 68, 173);
+            doc.text('QUOTATION', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text('StoneBeam-NH Construction Services', 105, 30, { align: 'center' });
+            doc.text('Email: dealer@stonebeamnh.com | Phone: +91-9106120047', 105, 36, { align: 'center' });
+            
+            // Client details
+            doc.setFontSize(14);
+            doc.text('Bill To:', 20, 55);
+            doc.setFontSize(11);
+            doc.text(data.clientName, 20, 65);
+            doc.text(data.clientEmail, 20, 71);
+            if (data.clientPhone) doc.text(data.clientPhone, 20, 77);
+            
+            // Quote details
+            doc.setFontSize(14);
+            doc.text('Quotation Details:', 120, 55);
+            doc.setFontSize(11);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 120, 65);
+            doc.text(`Valid Until: ${new Date(data.validUntil).toLocaleDateString()}`, 120, 71);
+            doc.text(`Project: ${data.projectType}`, 120, 77);
+            
+            // Items table
+            let yPos = 95;
+            doc.setFontSize(12);
+            doc.text('Description', 20, yPos);
+            doc.text('Qty', 100, yPos);
+            doc.text('Unit', 120, yPos);
+            doc.text('Rate', 140, yPos);
+            doc.text('Amount', 170, yPos);
+            
+            doc.line(20, yPos + 2, 190, yPos + 2);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            data.items.forEach(item => {
+                doc.text(item.description.substring(0, 25), 20, yPos);
+                doc.text(item.quantity.toString(), 100, yPos);
+                doc.text(item.unit, 120, yPos);
+                doc.text(`₹${item.rate}`, 140, yPos);
+                doc.text(`₹${item.amount.toFixed(2)}`, 170, yPos);
+                yPos += 8;
+            });
+            
+            // Totals
+            yPos += 10;
+            doc.line(140, yPos, 190, yPos);
+            yPos += 8;
+            doc.text(`Subtotal: ₹${data.subtotal.toFixed(2)}`, 140, yPos);
+            yPos += 6;
+            doc.text(`Tax (18%): ₹${data.tax.toFixed(2)}`, 140, yPos);
+            yPos += 6;
+            doc.setFontSize(12);
+            doc.text(`Total: ₹${data.total.toFixed(2)}`, 140, yPos);
+            
+            // Terms
+            if (data.terms) {
+                yPos += 20;
+                doc.setFontSize(12);
+                doc.text('Terms & Conditions:', 20, yPos);
+                yPos += 8;
+                doc.setFontSize(10);
+                const terms = data.terms.split('\n');
+                terms.forEach(term => {
+                    if (term.trim()) {
+                        doc.text(term, 20, yPos);
+                        yPos += 6;
+                    }
+                });
+            }
+            
+            // Save PDF
+            doc.save(`Quotation_${data.clientName.replace(/\s+/g, '_')}_${Date.now()}.pdf`);
+            alert('PDF generated and downloaded successfully!');
+            
+            // Reset form
+            location.reload();
+        }
+        
+        function collectQuotationData() {
+            const items = [];
+            document.querySelectorAll('#itemsBody tr').forEach(row => {
+                const desc = row.querySelector('.item-desc').value;
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const unit = row.querySelector('.item-unit').value;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                const amount = qty * rate;
+                
+                if (desc) {
+                    items.push({ description: desc, quantity: qty, unit, rate, amount });
+                }
+            });
+            
+            const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+            
+            return {
+                clientName: document.getElementById('clientName').value,
+                clientEmail: document.getElementById('clientEmail').value,
+                clientPhone: document.getElementById('clientPhone').value,
+                projectType: document.getElementById('projectType').value,
+                projectDescription: document.getElementById('projectDescription').value,
+                validUntil: document.getElementById('validUntil').value,
+                estimatedDays: document.getElementById('estimatedDays').value,
+                items,
+                subtotal,
+                tax,
+                total,
+                terms: document.getElementById('terms').value
+            };
+        }
+        
+        function validateQuotation(data) {
+            if (!data.clientName || !data.clientEmail || !data.projectType || !data.validUntil) {
+                alert('Please fill all required fields');
+                return false;
+            }
+            if (data.items.length === 0) {
+                alert('Please add at least one item');
+                return false;
+            }
+            return true;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default valid until date (30 days from now)
+            const validUntil = new Date();
+            validUntil.setDate(validUntil.getDate() + 30);
+            document.getElementById('validUntil').value = validUntil.toISOString().split('T')[0];
+            
+            // Attach listeners to initial row
+            attachItemListeners(document.querySelector('#itemsBody tr'));
+        });
+    </script>
+</body>
+</html>

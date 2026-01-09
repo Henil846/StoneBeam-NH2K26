@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Press Center - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="press.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="press.html" class="active">Press</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="login.html" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <section class="press-hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Press Center</h1>
+                <p>Latest news, announcements, and media resources from StoneBeam-NH Construction.</p>
+                <div class="hero-badges">
+                    <span class="badge">Media Kit Available</span>
+                    <span class="badge">High-Res Images</span>
+                    <span class="badge">Press Contacts</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+        
+        <section class="press-releases">
+            <div class="section-header">
+                <h2>Latest Press Releases</h2>
+                <p>Stay updated with StoneBeam-NH's latest developments and achievements</p>
+            </div>
+            
+            <!-- Press Filters -->
+            <div class="press-filters">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-category="all">All News</button>
+                    <button class="filter-tab" data-category="company">Company News</button>
+                    <button class="filter-tab" data-category="partnerships">Partnerships</button>
+                    <button class="filter-tab" data-category="milestones">Milestones</button>
+                    <button class="filter-tab" data-category="innovation">Innovation</button>
+                </div>
+                <div class="press-search">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="press-search" placeholder="Search press releases...">
+                </div>
+            </div>
+            
+            <div class="press-grid" id="press-grid">
+                <article class="press-item featured" data-category="company" data-date="2025-01-15">
+                    <div class="press-image">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop" alt="StoneBeam-NH Digital Platform">
+                        <div class="press-badge">Featured</div>
+                    </div>
+                    <div class="press-content">
+                        <div class="press-meta">
+                            <span class="date"><i class="fa-regular fa-calendar"></i> January 15, 2025</span>
+                            <span class="category">Company News</span>
+                        </div>
+                        <h3>StoneBeam-NH Launches Revolutionary Digital Construction Platform</h3>
+                        <p>StoneBeam-NH today announced the launch of its comprehensive digital construction management platform, featuring AI-powered quotation tools, verified contractor networks, and real-time project tracking. The platform aims to eliminate fraudulent activities and streamline construction workflows across Gujarat.</p>
+                        <div class="press-actions">
+                            <a href="#" class="read-more" data-id="1">Read Full Release</a>
+                            <a href="#" class="download-pdf" data-id="1"><i class="fa-solid fa-download"></i> Download PDF</a>
+                            <button class="share-btn" data-id="1"><i class="fa-solid fa-share"></i> Share</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="press-item" data-category="partnerships" data-date="2024-12-20">
+                    <div class="press-image">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=600&auto=format&fit=crop" alt="Partnership Announcement">
+                    </div>
+                    <div class="press-content">
+                        <div class="press-meta">
+                            <span class="date"><i class="fa-regular fa-calendar"></i> December 20, 2024</span>
+                            <span class="category">Partnerships</span>
+                        </div>
+                        <h3>Strategic Partnership with Gujarat's Leading Construction Firms</h3>
+                        <p>StoneBeam-NH has entered into strategic partnerships with five major construction firms across Gujarat. This collaboration will provide users with access to premium contractor networks and enhanced project management capabilities.</p>
+                        <div class="press-actions">
+                            <a href="#" class="read-more" data-id="2">Read Full Release</a>
+                            <a href="#" class="download-pdf" data-id="2"><i class="fa-solid fa-download"></i> Download PDF</a>
+                            <button class="share-btn" data-id="2"><i class="fa-solid fa-share"></i> Share</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="press-item" data-category="milestones" data-date="2024-11-10">
+                    <div class="press-image">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=600&auto=format&fit=crop" alt="Milestone Achievement">
+                    </div>
+                    <div class="press-content">
+                        <div class="press-meta">
+                            <span class="date"><i class="fa-regular fa-calendar"></i> November 10, 2024</span>
+                            <span class="category">Milestones</span>
+                        </div>
+                        <h3>StoneBeam-NH Completes 500th Construction Project</h3>
+                        <p>The company has successfully completed its 500th construction project, establishing itself as one of Gujarat's most trusted construction management solutions. This milestone reflects the growing demand for reliable and transparent construction services.</p>
+                        <div class="press-actions">
+                            <a href="#" class="read-more" data-id="3">Read Full Release</a>
+                            <a href="#" class="download-pdf" data-id="3"><i class="fa-solid fa-download"></i> Download PDF</a>
+                            <button class="share-btn" data-id="3"><i class="fa-solid fa-share"></i> Share</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="press-item" data-category="innovation" data-date="2024-10-05">
+                    <div class="press-image">
+                        <img src="https://images.unsplash.com/photo-1581094794329-cd67bcecfbbf?q=80&w=600&auto=format&fit=crop" alt="Technology Innovation">
+                    </div>
+                    <div class="press-content">
+                        <div class="press-meta">
+                            <span class="date"><i class="fa-regular fa-calendar"></i> October 5, 2024</span>
+                            <span class="category">Innovation</span>
+                        </div>
+                        <h3>AI-Powered Quotation System Reduces Project Costs by 15%</h3>
+                        <p>StoneBeam-NH introduces advanced AI-powered quotation templates that automatically calculate costs based on project specifications, location, and market rates. This innovation has improved quotation accuracy by 40% and reduced preparation time significantly.</p>
+                        <div class="press-actions">
+                            <a href="#" class="read-more" data-id="4">Read Full Release</a>
+                            <a href="#" class="download-pdf" data-id="4"><i class="fa-solid fa-download"></i> Download PDF</a>
+                            <button class="share-btn" data-id="4"><i class="fa-solid fa-share"></i> Share</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="press-item" data-category="company" data-date="2024-09-15">
+                    <div class="press-image">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop" alt="Team Expansion">
+                    </div>
+                    <div class="press-content">
+                        <div class="press-meta">
+                            <span class="date"><i class="fa-regular fa-calendar"></i> September 15, 2024</span>
+                            <span class="category">Company News</span>
+                        </div>
+                        <h3>StoneBeam-NH Expands Team with 25 New Hires</h3>
+                        <p>To meet growing demand, StoneBeam-NH has expanded its team with 25 new professionals across engineering, operations, and customer support. This expansion strengthens our ability to serve clients across Gujarat and beyond.</p>
+                        <div class="press-actions">
+                            <a href="#" class="read-more" data-id="5">Read Full Release</a>
+                            <a href="#" class="download-pdf" data-id="5"><i class="fa-solid fa-download"></i> Download PDF</a>
+                            <button class="share-btn" data-id="5"><i class="fa-solid fa-share"></i> Share</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="press-item" data-category="innovation" data-date="2024-08-20">
+                    <div class="press-image">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600&auto=format&fit=crop" alt="Mobile App Launch">
+                    </div>
+                    <div class="press-content">
+                        <div class="press-meta">
+                            <span class="date"><i class="fa-regular fa-calendar"></i> August 20, 2024</span>
+                            <span class="category">Innovation</span>
+                        </div>
+                        <h3>Mobile App Launched for On-Site Project Management</h3>
+                        <p>StoneBeam-NH launches its mobile application, enabling contractors and project managers to access quotations, track progress, and communicate with clients directly from construction sites.</p>
+                        <div class="press-actions">
+                            <a href="#" class="read-more" data-id="6">Read Full Release</a>
+                            <a href="#" class="download-pdf" data-id="6"><i class="fa-solid fa-download"></i> Download PDF</a>
+                            <button class="share-btn" data-id="6"><i class="fa-solid fa-share"></i> Share</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="media-kit">
+            <div class="section-header">
+                <h2>Media Resources</h2>
+                <p>Download our media kit for high-resolution images, logos, and company information</p>
+            </div>
+            
+            <div class="media-grid">
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fa-solid fa-images"></i>
+                    </div>
+                    <h4>High-Resolution Images</h4>
+                    <p>Professional photos of our projects, team, and facilities</p>
+                    <a href="#" class="download-btn">Download Images</a>
+                </div>
+                
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h4>Brand Assets</h4>
+                    <p>Official logos, brand guidelines, and color palettes</p>
+                    <a href="#" class="download-btn">Download Assets</a>
+                </div>
+                
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <h4>Company Fact Sheet</h4>
+                    <p>Key statistics, milestones, and company information</p>
+                    <a href="#" class="download-btn">Download PDF</a>
+                </div>
+                
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    <h4>Video Content</h4>
+                    <p>Corporate videos, project showcases, and interviews</p>
+                    <a href="#" class="download-btn">View Gallery</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="press-stats">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">₹100Cr+</div>
+                    <div class="stat-label">Total Project Value</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="press-contact">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Media Inquiries</h2>
+                    <p>For press inquiries, interview requests, or additional information, please contact our media relations team.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <div>
+                                <h4>Media Relations</h4>
+                                <p>Henil Shah, CEO & Founder</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p><a href="mailto:press@stonebeamnh.com">press@stonebeamnh.com</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fa-solid fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:+919106120047">+91-9106120047</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Press Inquiry Form</h3>
+                    <form id="press-form">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="outlet" placeholder="Media Outlet" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="type" required>
+                                <option value="">Inquiry Type</option>
+                                <option value="interview">Interview Request</option>
+                                <option value="information">Company Information</option>
+                                <option value="images">Media Assets</option>
+                                <option value="partnership">Partnership Inquiry</option>
+                                <option value="event">Event Coverage</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" name="deadline" placeholder="Deadline (if applicable)">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fa-solid fa-paper-plane"></i> Send Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your trusted partner in modern construction management. Building the future with innovation and excellence.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1AecM9uQYh/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://twitter.com/StonebeamNH2025" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/stonebeam-nh-stonebeam-nh-44b4143a2" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/stone_beam.nh" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="press.html" class="active">Press</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="help_support.html">Services</a></li>
+                    <li><a href="premium.html">Premium</a></li>
+                    <li><a href="help_support.html">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p><i class="fa-regular fa-envelope"></i> <a href="mailto:stonebeamnh@gmail.com" style="color: inherit;">stonebeamnh@gmail.com</a></p>
+                <p><i class="fa-solid fa-phone"></i> <a href="tel:+919106120047" style="color: inherit; text-decoration: none;">+91-9106120047</a></p>
+                <p><i class="fa-solid fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=Ahmedabad,Gujarat,India" target="_blank" style="color: inherit; text-decoration: none;">Ahmedabad, Gujarat</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 StoneBeam-NH. All rights reserved.</span>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="press.js"></script>
+</body>
+</html>

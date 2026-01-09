@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Orders - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="orders-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH <span style="color:#e67e22;">DEALER</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-home.html">Dashboard</a></li>
+            <li><a href="dealer-orders-pending.html">Orders Pending</a></li>
+            <li><a href="dealer-orders.html" class="active">All Orders</a></li>
+            <li><a href="prepare-quotations.html">Quotations</a></li>
+            <li><a href="help_support.html">Support</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="user-profile-nav">
+                <i class="fa-solid fa-user-tie"></i> Dealer Panel
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" style="background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(230, 126, 34, 0.8)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2000&auto=format&fit=crop');">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Dealer Order Management</h1>
+                <p>Manage quotation requests, submit proposals, and track project progress.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <div class="content-header">
+            <h2>Quotation Requests</h2>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-orders" placeholder="Search requests, clients, projects...">
+                </div>
+                <button class="btn-primary" id="create-quotation-btn">
+                    <i class="fa-solid fa-file-invoice"></i> Create Quotation
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="pending-requests">8</h3>
+                    <p>New Requests</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon progress">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="submitted-quotes">15</h3>
+                    <p>Quotes Submitted</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon completed">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="accepted-quotes">12</h3>
+                    <p>Accepted</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon revenue">
+                    <i class="fa-solid fa-rupee-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="potential-revenue">₹1.8Cr</h3>
+                    <p>Potential Revenue</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All Requests</button>
+                <button class="filter-btn" data-filter="new">New Requests</button>
+                <button class="filter-btn" data-filter="quoted">Quoted</button>
+                <button class="filter-btn" data-filter="accepted">Accepted</button>
+                <button class="filter-btn" data-filter="rejected">Rejected</button>
+            </div>
+            <div class="sort-options">
+                <select id="sort-orders">
+                    <option value="date-desc">Latest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="budget-desc">Highest Budget</option>
+                    <option value="budget-asc">Lowest Budget</option>
+                    <option value="deadline">Deadline</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="orders-container">
+            <div id="orders-list" class="orders-list">
+                <!-- Orders will be dynamically loaded here -->
+            </div>
+            
+            <div id="no-orders" class="no-orders" style="display:none;">
+                <i class="fa-solid fa-inbox"></i>
+                <h3>No Requests Found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <button class="page-btn" id="prev-page" disabled>« Previous</button>
+            <span class="page-info" id="page-info">Page 1 of 1</span>
+            <button class="page-btn" id="next-page" disabled>Next »</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="help_support.html">Help Center</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope"></i> stonebeamnh@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i> +91-9106120047</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span><a href="privacy.html">Privacy Policy</a></span>
+            <span><a href="terms.html"> Terms of Service</a></span>
+        </div>
+    </footer>
+
+    <!-- Quotation Modal -->
+    <div id="quotation-modal" class="modal">
+        <div class="modal-content quotation-modal-content">
+            <div class="modal-header">
+                <h3>Create Quotation</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="quotation-form" class="quotation-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quote-project">Project</label>
+                            <select id="quote-project" required>
+                                <option value="">Select Project</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-amount">Quote Amount (₹)</label>
+                            <input type="number" id="quote-amount" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quote-timeline">Timeline (Days)</label>
+                            <input type="number" id="quote-timeline" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-validity">Validity (Days)</label>
+                            <input type="number" id="quote-validity" value="30" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="quote-description">Work Description</label>
+                        <textarea id="quote-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="quote-terms">Terms & Conditions</label>
+                        <textarea id="quote-terms" rows="3" placeholder="Payment terms, warranty, etc."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" id="cancel-quote">Cancel</button>
+                <button type="submit" form="quotation-form" class="btn-primary">Submit Quotation</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dealer-orders.js"></script>
+</body>
+</html>

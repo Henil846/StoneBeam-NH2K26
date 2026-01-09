@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFQ Test - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RFQ System Test</h1>
+        
+        <!-- Request Quote Form -->
+        <div class="card">
+            <h2>Request a Quote</h2>
+            <form id="rfqForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title:</label>
+                    <input type="text" id="projectTitle" value="Test Kitchen Renovation" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description:</label>
+                    <textarea id="projectDescription" required>Complete kitchen makeover with modern appliances and fixtures</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Budget:</label>
+                    <input type="number" id="budget" value="500000" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" value="Mumbai, Maharashtra" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" required>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="Living Room">Living Room</option>
+                        <option value="Bedroom">Bedroom</option>
+                        <option value="Exterior">Exterior</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Send Quote Request</button>
+            </form>
+        </div>
+
+        <!-- Dealer Simulation -->
+        <div class="card">
+            <h2>Dealer Response Simulation</h2>
+            <div class="form-group">
+                <label for="quoteId">Quote ID:</label>
+                <input type="text" id="quoteId" placeholder="Enter quote ID from console">
+            </div>
+            <div class="form-group">
+                <label for="dealerAmount">Quote Amount:</label>
+                <input type="number" id="dealerAmount" value="450000">
+            </div>
+            <button onclick="simulateDealerResponse()" class="btn-secondary">Simulate Dealer Response</button>
+        </div>
+
+        <!-- Quotes Display -->
+        <div class="card">
+            <h2>Your Quotes</h2>
+            <div id="quotesList">
+                <!-- Quotes will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Console Output -->
+        <div class="card">
+            <h2>Console Output</h2>
+            <div id="consoleOutput" style="background: #f5f5f5; padding: 10px; border-radius: 4px; font-family: monospace; max-height: 200px; overflow-y: auto;">
+                <!-- Console messages will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script src="rfq-manager.js"></script>
+
+    <script>
+        // Console output capture
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleOutput = document.getElementById('consoleOutput');
+
+        function addToConsole(message, type = 'log') {
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? 'red' : 'black';
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.join(' '), 'error');
+        };
+
+        // Mock ProfileManager for toast notifications
+        window.profileManager = {
+            showToast: function(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.className = `toast ${type} show`;
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+        };
+
+        // Form submission
+        document.getElementById('rfqForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!window.rfqManager) {
+                alert('RFQ Manager not initialized yet. Please wait...');
+                return;
+            }
+
+            const projectDetails = {
+                title: document.getElementById('projectTitle').value,
+                description: document.getElementById('projectDescription').value,
+                budget: document.getElementById('budget').value,
+                location: document.getElementById('location').value,
+                category: document.getElementById('category').value
+            };
+
+            try {
+                const quoteId = await window.rfqManager.sendRequestForQuote(projectDetails);
+                document.getElementById('quoteId').value = quoteId;
+                console.log('Quote ID for testing:', quoteId);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Dealer simulation
+        function simulateDealerResponse() {
+            const quoteId = document.getElementById('quoteId').value;
+            const amount = document.getElementById('dealerAmount').value;
+            
+            if (!quoteId) {
+                alert('Please enter a Quote ID');
+                return;
+            }
+
+            if (!window.rfqManager) {
+                alert('RFQ Manager not initialized yet. Please wait...');
+                return;
+            }
+
+            window.rfqManager.simulateDealerResponse(quoteId, amount)
+                .then(() => {
+                    console.log('Dealer response simulated successfully');
+                })
+                .catch(error => {
+                    console.error('Error simulating dealer response:', error);
+                });
+        }
+
+        // Wait for Firebase auth and create a test user session
+        document.addEventListener('DOMContentLoaded', () => {
+            const initAuth = () => {
+                if (window.auth) {
+                    // Sign in anonymously for testing
+                    window.auth.signInAnonymously()
+                        .then(() => {
+                            console.log('Signed in anonymously for testing');
+                        })
+                        .catch(error => {
+                            console.error('Error signing in:', error);
+                        });
+                } else {
+                    setTimeout(initAuth, 100);
+                }
+            };
+            initAuth();
+        });
+    </script>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            background: #27ae60;
+        }
+        
+        .toast.error {
+            background: #e74c3c;
+        }
+        
+        .toast.warning {
+            background: #f39c12;
+        }
+        
+        .quote-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .quote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .quote-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .quote-status.pending_dealer {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .quote-status.quoted {
+            background: #3498db;
+            color: white;
+        }
+        
+        .quote-status.approved {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .quote-status.rejected {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .quote-actions {
+            margin-top: 15px;
+        }
+        
+        .quote-actions button {
+            margin-right: 10px;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="dealer-orders-pending.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH <span class="dealer-badge">DEALER</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-home.html">Dashboard</a></li>
+            <li><a href="dealer-orders-pending.html" class="active">Orders Pending</a></li>
+            <li><a href="dealer-orders.html">All Orders</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button onclick="history.back()" class="btn-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+        </div>
+    </nav>
+
+    <div class="main-container" style="max-width: 1200px; margin: 2rem auto; padding: 2rem;">
+        <div id="order-details-content"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+            
+            if (!orderId) {
+                window.location.href = 'dealer-orders-pending.html';
+                return;
+            }
+            
+            const userProjects = JSON.parse(localStorage.getItem('dealer_projects') || '[]');
+            const project = userProjects.find(p => 'UP-' + p.id === orderId);
+            
+            if (!project) {
+                document.getElementById('order-details-content').innerHTML = '<h2>Order not found</h2>';
+                return;
+            }
+            
+            const order = {
+                id: 'UP-' + project.id,
+                title: `Material Supply Request - ${project.items.length} items`,
+                client: { name: project.userName, email: 'user@example.com', phone: '+1-555-0000' },
+                location: extractCityFromAddress(project.deliveryAddress),
+                budget: project.items.length * 50000,
+                deadline: 'ASAP',
+                status: project.status === 'open' ? 'new' : 'quoted',
+                priority: 'medium',
+                description: `Materials needed: ${project.items.map(item => `${item.quantity} ${item.unit} of ${item.material}`).join(', ')}`,
+                requestedAt: project.createdAt || project.postedAt,
+                materials: project.items,
+                deliveryAddress: project.deliveryAddress
+            };
+            
+            document.getElementById('order-details-content').innerHTML = `
+                <div style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 2rem; border-radius: 15px; border: 1px solid #333;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h1 style="color: #a569bd; margin: 0;">${order.title}</h1>
+                        <span style="background: #f39c12; color: #000; padding: 8px 16px; border-radius: 20px; font-weight: bold;">${order.priority.toUpperCase()}</span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                        <div style="background: #222; padding: 1.5rem; border-radius: 10px;">
+                            <h3 style="color: #a569bd; margin-bottom: 1rem;"><i class="fa-solid fa-user"></i> Client Information</h3>
+                            <p><strong>Name:</strong> ${order.client.name}</p>
+                            <p><strong>Email:</strong> ${order.client.email}</p>
+                            <p><strong>Phone:</strong> ${order.client.phone}</p>
+                            <p><strong>Location:</strong> ${order.location}</p>
+                        </div>
+                        
+                        <div style="background: #222; padding: 1.5rem; border-radius: 10px;">
+                            <h3 style="color: #a569bd; margin-bottom: 1rem;"><i class="fa-solid fa-building"></i> Project Details</h3>
+                            <p><strong>Budget:</strong> ₹${formatCurrency(order.budget)}</p>
+                            <p><strong>Deadline:</strong> ${order.deadline}</p>
+                            <p><strong>Status:</strong> ${order.status}</p>
+                            <p><strong>Order ID:</strong> ${order.id}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #222; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                        <h3 style="color: #a569bd; margin-bottom: 1rem;"><i class="fa-solid fa-box"></i> Required Materials</h3>
+                        <div style="display: grid; gap: 0.5rem;">
+                            ${order.materials.map(item => `
+                                <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: #333; border-radius: 6px;">
+                                    <span>${item.material}</span>
+                                    <span style="color: #a569bd; font-weight: bold;">${item.quantity} ${item.unit}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="background: #222; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                        <h3 style="color: #a569bd; margin-bottom: 1rem;"><i class="fa-solid fa-map-marker-alt"></i> Delivery Address</h3>
+                        <p>${order.deliveryAddress}</p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button onclick="history.back()" class="btn-secondary" style="padding: 12px 24px; border: 1px solid #555; background: transparent; color: #fff; border-radius: 6px; cursor: pointer;">
+                            <i class="fa-solid fa-arrow-left"></i> Back
+                        </button>
+                        <button onclick="submitQuote('${order.id}')" class="btn-primary" style="padding: 12px 24px; background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Submit Quote
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        function extractCityFromAddress(address) {
+            if (!address) return 'Not specified';
+            const parts = address.split(',');
+            return parts.length > 1 ? parts[parts.length - 1].trim() : address.split(' ').pop();
+        }
+        
+        function formatCurrency(amount) {
+            if (amount >= 10000000) return `${(amount / 10000000).toFixed(1)}Cr`;
+            if (amount >= 100000) return `${(amount / 100000).toFixed(1)}L`;
+            if (amount >= 1000) return `${(amount / 1000).toFixed(0)}K`;
+            return amount.toLocaleString('en-IN');
+        }
+        
+        function submitQuote(orderId) {
+            window.location.href = `prepare-quotations.html?orderId=${orderId}`;
+        }
+    </script>
+</body>
+</html>

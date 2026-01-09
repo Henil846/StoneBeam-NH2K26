@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #000; color: #fff; }
+        .dashboard-container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .dashboard-header h1 { color: #a569bd; font-size: 2.5rem; }
+        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .action-card { background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 1.5rem; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease; text-decoration: none; color: white; }
+        .action-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(142, 68, 173, 0.4); }
+        .action-card i { font-size: 2rem; margin-bottom: 1rem; }
+        .action-card h3 { margin: 0; font-size: 1.1rem; }
+        .dashboard-content { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        .main-content { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); border-radius: 15px; padding: 2rem; border: 1px solid #333; }
+        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+        .sidebar-panel { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); border-radius: 15px; padding: 1.5rem; border: 1px solid #333; }
+        .sidebar-panel h3 { color: #a569bd; margin-bottom: 1rem; }
+        .recent-activity { list-style: none; padding: 0; }
+        .recent-activity li { padding: 10px 0; border-bottom: 1px solid #333; color: #ccc; font-size: 0.9rem; }
+        .recent-activity li:last-child { border-bottom: none; }
+        .recent-activity i { color: #a569bd; margin-right: 10px; }
+        @media (max-width: 768px) {
+            .dashboard-content { grid-template-columns: 1fr; }
+            .quick-actions { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="view-quatations.html">My Requests</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="index.html" class="login-btn"><i class="fa-solid fa-user"></i> User</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1><i class="fa-solid fa-tachometer-alt"></i> User Dashboard</h1>
+            <div class="header-info">
+                <span style="color: #ccc;">Welcome back!</span>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <a href="request-quotations.html" class="action-card">
+                <i class="fa-solid fa-plus-circle"></i>
+                <h3>New Request</h3>
+            </a>
+            <a href="view-quatations.html" class="action-card">
+                <i class="fa-solid fa-folder-open"></i>
+                <h3>My Requests</h3>
+            </a>
+            <a href="contractors.html" class="action-card">
+                <i class="fa-solid fa-users"></i>
+                <h3>Find Contractors</h3>
+            </a>
+            <a href="help_support.html" class="action-card">
+                <i class="fa-solid fa-headset"></i>
+                <h3>Support</h3>
+            </a>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="main-content">
+                <h2 style="color: #a569bd; margin-bottom: 1.5rem;">
+                    <i class="fa-solid fa-chart-bar"></i> Overview
+                </h2>
+                <div id="overviewContent">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-panel">
+                    <h3><i class="fa-solid fa-clock"></i> Recent Activity</h3>
+                    <ul class="recent-activity" id="recentActivity">
+                        <!-- Activity will be loaded here -->
+                    </ul>
+                </div>
+
+                <div class="sidebar-panel">
+                    <h3><i class="fa-solid fa-bell"></i> Quick Stats</h3>
+                    <div id="quickStats">
+                        <!-- Stats will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="user-dashboard.js"></script>
+</body>
+</html>

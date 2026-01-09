@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoneBeam-NH | Construction Management</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#3498db">
+    <meta name="msapplication-TileColor" content="#3498db">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="responsive-utils.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" as="script">
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js" as="script">
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js" as="script">
+
+    <!-- Core Polyfills and Compatibility -->
+    <script>
+        // Fallback for missing files
+        window.polyfills = window.polyfills || {};
+        window.platformDetector = window.platformDetector || { getPlatformInfo: () => ({ device: { mobile: false }, features: { touch: false } }) };
+        window.browserCompatibility = window.browserCompatibility || { showCompatibilityWarning: () => {} };
+    </script>
+    <script src="notification-system.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script>
+        // Enhanced Service Worker registration with error handling
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/service-worker.js', {
+                        scope: '/'
+                    });
+                    
+                    console.log('Service Worker registered successfully:', registration);
+                    
+                    // Handle updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('New Service Worker found');
+                        
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Show update notification
+                                showUpdateNotification();
+                            }
+                        });
+                    });
+                    
+                    // Handle controller change
+                    navigator.serviceWorker.addEventListener('controllerchange', () => {
+                        console.log('Service Worker activated');
+                        window.location.reload();
+                    });
+                    
+                } catch (error) {
+                    console.error('Service Worker registration failed:', error);
+                }
+            });
+        } else {
+            console.warn('Service Workers not supported in this browser');
+        }
+        
+        // Show update notification
+        function showUpdateNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'update-notification';
+            notification.innerHTML = `
+                <div class="update-content">
+                    <i class="fa-solid fa-download"></i>
+                    <span>A new version is available!</span>
+                    <button onclick="window.location.reload()">Update</button>
+                    <button onclick="this.parentElement.parentElement.remove()">Later</button>
+                </div>
+            `;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2ecc71;
+                color: white;
+                padding: 15px;
+                border-radius: 8px;
+                z-index: 10001;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                font-family: inherit;
+            `;
+            document.body.appendChild(notification);
+        }
+        
+        // Platform-specific initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize platform detector
+            if (window.platformDetector) {
+                const platform = window.platformDetector.getPlatformInfo();
+                console.log('Platform detected:', platform);
+                
+                // Add platform-specific optimizations
+                if (platform.device.mobile) {
+                    document.body.classList.add('mobile-optimized');
+                }
+                
+                if (platform.features.touch) {
+                    document.body.classList.add('touch-optimized');
+                }
+            }
+            
+            // Initialize browser compatibility
+            if (window.browserCompatibility) {
+                // Show compatibility warnings if needed
+                setTimeout(() => {
+                    browserCompatibility.showCompatibilityWarning();
+                }, 1000);
+            }
+            
+            // Setup offline detection
+            setupOfflineDetection();
+            
+            // Setup performance monitoring
+            setupPerformanceMonitoring();
+        });
+        
+        // Offline detection
+        function setupOfflineDetection() {
+            const offlineIndicator = document.createElement('div');
+            offlineIndicator.className = 'offline-indicator';
+            offlineIndicator.innerHTML = '<i class="fa-solid fa-wifi"></i> You are offline';
+            document.body.appendChild(offlineIndicator);
+            
+            function updateOnlineStatus() {
+                if (navigator.onLine) {
+                    document.body.classList.remove('offline');
+                } else {
+                    document.body.classList.add('offline');
+                }
+            }
+            
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+        }
+        
+        // Performance monitoring
+        function setupPerformanceMonitoring() {
+            if ('performance' in window) {
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        const perfData = performance.getEntriesByType('navigation')[0];
+                        if (perfData) {
+                            console.log('Page load performance:', {
+                                loadTime: perfData.loadEventEnd - perfData.loadEventStart,
+                                domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                                totalTime: perfData.loadEventEnd - perfData.fetchStart
+                            });
+                        }
+                    }, 0);
+                });
+            }
+        }
+        
+        // Error handling
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            // You can send error reports to your analytics service here
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+            // You can send error reports to your analytics service here
+        });
+    </script>
+</head>
+
+<body>
+    <!-- User Type Selection Modal -->
+    <div id="user-type-modal" class="modal">
+        <div class="modal-content">
+            <h2>Select User Type</h2>
+            <div class="modal-buttons">
+                <button id="user-btn" class="modal-btn">User</button>
+                <button id="dealer-btn" class="modal-btn">Dealer</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="user-profile-container">
+                <div class="user-profile-btn" id="user-profile-btn">
+                    <i class="fa-regular fa-user"></i>
+                    <span id="user-display-name">User</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="user-info">
+                        <div class="user-avatar">U</div>
+                        <div class="user-details">
+                            <span class="user-name" id="dropdown-user-name">Guest User</span>
+                            <span class="user-email" id="dropdown-user-email">guest@example.com</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="real-profile.html" class="dropdown-item">
+                        <i class="fa-solid fa-user"></i> View Profile
+                    </a>
+                    <a href="login.html" class="dropdown-item" id="login-signup-link">
+                        <i class="fa-solid fa-sign-in-alt"></i> Login / Sign Up
+                    </a>
+                    <a href="index.html" class="dropdown-item" id="logout-link" style="display: none;">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Building Your Vision,<br><span class="gradient-text">Brick By Brick</span></h1>
+                <p>Spurious profile detection, verified profiles only, and requesting or giving quotations adapted for
+                    your enterprise workflow.</p>
+
+                <div class="hero-buttons">
+                    <a href="new-project.html" class="btn-primary"><i class="fa-solid fa-circle-plus"></i> <span
+                            data-i18n="btn.find_new_project">Create New Project</span></a>
+                    <a href="view-quotations.html" class="btn-secondary"><i class="fa-regular fa-folder-open"></i> <span
+                            data-i18n="btn.view_quotations">View quotations</span></a>
+                </div>
+            </div>
+
+            <div class="floating-badge">
+                <div class="badge-text">
+                    <span>Active crews</span>
+                    <strong> <i class="fa-solid fa-people-group"></i></strong>
+                </div>
+                <div class="badge-text">
+                    <span>Satisfaction</span>
+                    <strong> <i class="fa-solid fa-star"></i></strong>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="stats-bar">
+        <div class="stat-pill">
+            <i class="fa-solid fa-scroll"></i>
+            <div class="stat-info">
+                <span>Orders Completed</span>
+                <strong>150+</strong>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <i class="fa-solid fa-comments"></i>
+            <div class="stat-info">
+                <span>quotations completed</span>
+                <strong>1.2K</strong>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <i class="fa-solid fa-user-slash"></i>
+            <div class="stat-info">
+                <span>Blocked Spurious Profiles</span>
+                <strong>850</strong>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <i class="fa-solid fa-clock"></i>
+            <div class="stat-info">
+                <span>On-Time Rate</span>
+                <strong>98%</strong>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+
+        <div class="content-header">
+            <h2>Our Services</h2>
+            <a href="help_support.html" class="view-all">View All Services</a>
+        </div>
+
+        <div class="grid-row">
+            <div class="cards-column">
+                <div class="service-card"
+                    style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Requesting quotations</h3>
+                        <p>User who wanna get quotations will request for quotations on this website.</p>
+                        <a href="request-quotations.html" class="details-link">Details &longrightarrow;</a>
+                    </div>
+                </div>
+                <div class="service-card"
+                    style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Preparing quotations</h3>
+                        <p>this website provides you to customize your quatation systematically.</p>
+                        <a href="dealer-login.html" class="details-link">For dealers: Login to access
+                            &longrightarrow;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-column">
+                <div class="sidebar-panel quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-grid">
+                        <div class="action-item" onclick="window.location.href='upload-files.html'">
+                            <i class="fa-solid fa-cloud-upload-alt"></i>
+                            <span>Upload Files</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='schedule.html'">
+                            <i class="fa-regular fa-calendar-check"></i>
+                            <span>Schedule</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='premium.html'">
+                            <i class="fa-solid fa-crown"></i>
+                            <span>Premium</span>
+                        </div>
+                        <div class="action-item" onclick="window.location.href='help_support.html'">
+                            <i class="fa-solid fa-headset"></i>
+                            <span>Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="cards-column">
+                <div class="service-card"
+                    style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1581094794329-cd67bcecfbbf?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Uploading Quotations</h3>
+                        <p>After preparing quatation user can upload the quatation to requester.</p>
+                        <a href="dealer-login.html" class="details-link">For dealers: Login to upload
+                            &longrightarrow;</a>
+                    </div>
+                </div>
+                <div class="service-card"
+                    style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Premium</h3>
+                        <p>In premium, we provide verified profiles only.</p>
+                        <a href="premium.html" class="details-link">Details &longrightarrow;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-column">
+                <div class="sidebar-panel live-updates">
+                    <h3>Live Updates</h3>
+                    <ul class="update-list">
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <div>
+                                <strong>Approval/Rejection of Quatation</strong>
+                                <span>Project home approved-2h ago</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-regular fa-envelope"></i>
+                            <div>
+                                <strong>New Quote Available</strong>
+                                <span>New Project Available-5h ago</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-basket-shopping"></i>
+                            <div>
+                                <strong>Order Status</strong>
+                                <span>Delivered-1d ago</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="cards-column">
+                <div class="service-card"
+                    style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Document Management</h3>
+                        <p>Secure cloud storage for all your construction documents and files.</p>
+                        <a href="upload-files.html" class="details-link">Upload Files &longrightarrow;</a>
+                    </div>
+                </div>
+                <div class="service-card"
+                    style="background-image: linear-gradient(to right, rgba(0,0,0,0.1), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2000&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Project Scheduling</h3>
+                        <p>Advanced calendar system for managing construction timelines and deadlines.</p>
+                        <a href="schedule.html" class="details-link">View Schedule &longrightarrow;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-column">
+                <div class="sidebar-panel special-offer">
+                    <h3><i class="fa-solid fa-gift"></i> Special Offer</h3>
+                    <p>Try StoneBeam-NH Premium free for 4 days and experience verified profiles only.</p>
+                    <a href="premium.html" class="offer-btn">Start Free Trial</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="main-container">
+            <div class="contact-header">
+                <h2>Get In Touch</h2>
+                <p>Ready to start your construction project? Contact us today!</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fa-solid fa-phone"></i>
+                    <h3>Call Us</h3>
+                    <div class="phone-numbers">
+                        <a href="tel:+917043297992" class="phone-link">+91-7043297992</a>
+                        <a href="tel:+919106120047" class="phone-link">+91-9106120047</a>
+                    </div>
+                    <p>Available 24/7 for urgent construction needs</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fa-regular fa-envelope"></i>
+                    <h3>Email Us</h3>
+                    <a href="mailto:stonebeamnh@gmail.com" class="email-link">stonebeamnh@gmail.com</a>
+                    <p>Get detailed quotes and project discussions</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <h3>Visit Us</h3>
+                    <a href="https://maps.google.com/?q=Ahmedabad,Gujarat,India" target="_blank"
+                        class="location-link">Ahmedabad, Gujarat</a>
+                    <p>Meet our team for personalized consultations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="main-container">
+            <div class="content-header">
+                <h2>Latest from Our Blog</h2>
+                <div class="blog-actions">
+                    <a href="create-post.html" class="write-post-btn"><i class="fa-solid fa-pen"></i> Write Post</a>
+                    <a href="blog.html" class="view-all">View All Posts</a>
+                </div>
+            </div>
+
+            <div class="blog-grid">
+                <article class="blog-card featured">
+                    <div class="blog-image">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop"
+                            alt="Construction Technology">
+                        <div class="blog-category">Technology</div>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-date"><i class="fa-regular fa-calendar"></i> Jan 15, 2025</span>
+                            <span class="blog-author"><i class="fa-regular fa-user"></i> StoneBeam Team</span>
+                        </div>
+                        <h3><a href="blog-post-1.html">How Digital Quotations Are Revolutionizing Construction</a></h3>
+                        <p>Discover how our digital quotation system is streamlining the construction bidding process
+                            and reducing project delays by up to 40%.</p>
+                        <div class="blog-footer">
+                            <a href="blog-post-1.html" class="read-more">Read More <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                            <div class="blog-stats">
+                                <span><i class="fa-regular fa-eye"></i> 1.2k</span>
+                                <span><i class="fa-regular fa-heart"></i> 89</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2000&auto=format&fit=crop"
+                            alt="Construction Safety">
+                        <div class="blog-category">Safety</div>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-date"><i class="fa-regular fa-calendar"></i> Jan 12, 2025</span>
+                            <span class="blog-author"><i class="fa-regular fa-user"></i> Safety Expert</span>
+                        </div>
+                        <h3><a href="blog-post-2.html">5 Essential Safety Protocols for Modern Construction Sites</a>
+                        </h3>
+                        <p>Learn about the latest safety standards and how verified profiles ensure compliance across
+                            all projects.</p>
+                        <div class="blog-footer">
+                            <a href="blog-post-2.html" class="read-more">Read More <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                            <div class="blog-stats">
+                                <span><i class="fa-regular fa-eye"></i> 856</span>
+                                <span><i class="fa-regular fa-heart"></i> 67</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop"
+                            alt="Project Management">
+                        <div class="blog-category">Management</div>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-date"><i class="fa-regular fa-calendar"></i> Jan 10, 2025</span>
+                            <span class="blog-author"><i class="fa-regular fa-user"></i> Project Manager</span>
+                        </div>
+                        <h3><a href="blog-post-3.html">Maximizing ROI with Premium Verified Contractors</a></h3>
+                        <p>Case study: How premium membership reduced project costs by 25% through verified contractor
+                            networks.</p>
+                        <div class="blog-footer">
+                            <a href="blog-post-3.html" class="read-more">Read More <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                            <div class="blog-stats">
+                                <span><i class="fa-regular fa-eye"></i> 1.5k</span>
+                                <span><i class="fa-regular fa-heart"></i> 124</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="blog-newsletter">
+                <div class="newsletter-content">
+                    <h3><i class="fa-regular fa-envelope"></i> Stay Updated</h3>
+                    <p>Get the latest construction industry insights and StoneBeam-NH updates delivered to your inbox.
+                    </p>
+                </div>
+                <form class="newsletter-form" id="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" required id="newsletter-email">
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i> Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management. Bringing digital efficiency to the job site.
+                </p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="help_support.html">Help Center</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope"></i> <a href="mailto:stonebeamnh@gmail.com"
+                        style="color: inherit;">stonebeamnh@gmail.com</a></p>
+                <p><i class="fa-solid fa-phone"></i> <a href="tel:+917043297992"
+                        style="color: inherit; text-decoration: none;">+91-7043297992</a> / <a href="tel:+919106120047"
+                        style="color: inherit; text-decoration: none;">+91-9106120047</a></p>
+                <p><i class="fa-solid fa-map-marker-alt"></i> <a
+                        href="https://maps.google.com/?q=Ahmedabad,Gujarat,India" target="_blank"
+                        style="color: inherit; text-decoration: none;">Ahmedabad, Gujarat</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span><a href="privacy.html">Privacy Policy</a></span>
+            <span><a href="terms.html"> Terms of Service</a></span>
+        </div>
+    </footer>
+
+    <!-- User Profile Panel -->
+    <div class="profile-overlay" id="profile-overlay"></div>
+    <div class="profile-panel" id="profile-panel">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="profile-info">
+                <h3 id="panel-profile-name">User Name</h3>
+                <p id="panel-profile-email">user@email.com</p>
+                <span class="member-since">Member since <span id="panel-member-since">Jan 2025</span></span>
+            </div>
+            <button class="close-panel-btn" id="close-profile-panel">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+
+        <div class="profile-menu">
+            <div class="menu-item active" data-section="profile-section">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </div>
+            <div class="menu-item" data-section="preferences-section">
+                <i class="fa-solid fa-cog"></i>
+                <span>Preferences</span>
+            </div>
+            <div class="menu-item" data-section="security-section">
+                <i class="fa-solid fa-shield-alt"></i>
+                <span>Security</span>
+            </div>
+            <div class="menu-item logout-item">
+                <i class="fa-solid fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-section active" id="profile-section">
+                <h3>Profile Information</h3>
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="panel-displayName">Display Name</label>
+                        <input type="text" id="panel-displayName" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="panel-email">Email</label>
+                        <input type="email" id="panel-email" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="panel-phone">Phone</label>
+                        <input type="tel" id="panel-phone" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="panel-bio">Bio</label>
+                        <textarea id="panel-bio" placeholder="Tell us about yourself"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </form>
+            </div>
+
+            <div class="profile-section" id="preferences-section">
+                <h3>Preferences</h3>
+                <form class="preferences-form">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="email-notifications"> Email Notifications
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="sms-notifications"> SMS Notifications
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Language</label>
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="gu">Gujarati</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Preferences</button>
+                </form>
+            </div>
+
+            <div class="profile-section" id="security-section">
+                <h3>Security Settings</h3>
+                <div class="security-options">
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Password</h4>
+                            <p>Change your account password</p>
+                        </div>
+                        <button class="btn-secondary">Change Password</button>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Two-Factor Authentication</h4>
+                            <p>Add an extra layer of security</p>
+                        </div>
+                        <button class="btn-secondary">Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Panel -->
+    <div class="profile-overlay" id="profile-overlay"></div>
+    <div class="profile-panel" id="profile-panel">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="profile-info">
+                <h3 id="panel-profile-name">User Name</h3>
+                <p id="panel-profile-email">user@email.com</p>
+                <span class="member-since">Member since <span id="panel-member-since">Jan 2025</span></span>
+            </div>
+            <button class="close-panel-btn" id="close-profile-panel">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+
+        <div class="profile-menu">
+            <div class="menu-item active" data-section="profile-section">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </div>
+            <div class="menu-item" data-section="preferences-section">
+                <i class="fa-solid fa-cog"></i>
+                <span>Preferences</span>
+            </div>
+            <div class="menu-item" data-section="security-section">
+                <i class="fa-solid fa-shield-alt"></i>
+                <span>Security</span>
+            </div>
+            <div class="menu-item logout-item">
+                <i class="fa-solid fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-section active" id="profile-section">
+                <h3>Profile Information</h3>
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="panel-displayName">Display Name</label>
+                        <input type="text" id="panel-displayName" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="panel-email">Email</label>
+                        <input type="email" id="panel-email" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="panel-phone">Phone</label>
+                        <input type="tel" id="panel-phone" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="panel-bio">Bio</label>
+                        <textarea id="panel-bio" placeholder="Tell us about yourself"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </form>
+            </div>
+
+            <div class="profile-section" id="preferences-section">
+                <h3>Preferences</h3>
+                <form class="preferences-form">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="email-notifications"> Email Notifications
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="sms-notifications"> SMS Notifications
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Language</label>
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="gu">Gujarati</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Preferences</button>
+                </form>
+            </div>
+
+            <div class="profile-section" id="security-section">
+                <h3>Security Settings</h3>
+                <div class="security-options">
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Password</h4>
+                            <p>Change your account password</p>
+                        </div>
+                        <button class="btn-secondary">Change Password</button>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Two-Factor Authentication</h4>
+                            <p>Add an extra layer of security</p>
+                        </div>
+                        <button class="btn-secondary">Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="firebase.js"></script>
+    <script>
+        // Fallback scripts
+        window.authManager = window.authManager || {};
+        window.sampleData = window.sampleData || {};
+        window.liveUpdates = window.liveUpdates || {};
+        window.modules = window.modules || {};
+        window.main = window.main || {};
+    </script>
+    <script src="index-simple.js"></script>
+</body>
+
+</html>

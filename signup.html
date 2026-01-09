@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up | StoneBeam-NH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="signup.css">
+</head>
+
+<body>
+
+    <div class="auth-card">
+        <div class="header">
+            <h2>Create Account</h2>
+            <p>Join StoneBeam-NH today</p>
+        </div>
+
+        <div id="msg-box" class="msg-box"></div>
+
+        <form id="signupForm">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Your Name" required oninput="validateNameRealtime()">
+                <div id="name-error" class="error-msg"></div>
+            </div>
+
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="tel" id="regPhone" placeholder="98765 43210" pattern="[0-9]{10}" required
+                    oninput="validatePhoneRealtime()">
+                <div id="phone-error" class="error-msg"></div>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="regEmail" placeholder="email@example.com" required
+                    oninput="validateEmailRealtime()">
+                <div id="email-error" class="error-msg"></div>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="regPass" placeholder="Create Password" required
+                    oninput="validatePasswordRealtime()">
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePass('regPass', this)"></i>
+                <div id="pass-error" class="error-msg"></div>
+            </div>
+
+            <button type="submit" class="gradient-btn">Create Account</button>
+        </form>
+
+        <div class="links">
+            <p>Already a member? <a href="login.html">Login</a></p>
+        </div>
+    </div>
+
+    <script>
+        function togglePass(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        function showMsg(text, type) {
+            const msgBox = document.getElementById('msg-box');
+            msgBox.style.display = 'block';
+            msgBox.className = 'msg-box ' + type;
+            msgBox.innerText = text;
+        }
+    </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="signup.js"></script>
+</body>
+
+</html>

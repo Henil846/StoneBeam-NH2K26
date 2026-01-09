@@ -1,0 +1,346 @@
+/* --- KEEP PREVIOUS VARIABLES & BODY STYLES --- */
+:root {
+    --bg-dark: #1e0638;       
+    --accent-purple: #bc5eff; 
+    --accent-peach: #ffd8c6;  
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(188, 94, 255, 0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 216, 198, 0.1) 0%, transparent 20%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.auth-card {
+    background: var(--glass);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    position: relative;
+    border: 1px solid rgba(188, 94, 255, 0.2); /* Slight purple border */
+}
+
+/* Top Gradient Line */
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-peach));
+}
+
+.header { text-align: center; margin-bottom: 30px; }
+
+.header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--accent-peach), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.header p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+/* --- INPUTS & LABELS --- */
+.input-group { margin-bottom: 20px; position: relative; }
+
+.input-group label {
+    display: block;
+    color: var(--accent-peach);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+/* Helper text for "Optional" */
+.label-flex {
+    display: flex;
+    justify-content: space-between;
+}
+.optional { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: normal; }
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    padding-right: 45px; /* Space for the eye icon */
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(188, 94, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--accent-peach);
+    box-shadow: 0 0 10px rgba(188, 94, 255, 0.2);
+}
+
+/* --- SHOW/HIDE PASSWORD ICON --- */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 42px; /* Adjust based on label height */
+    color: var(--accent-purple);
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+}
+.toggle-password:hover { color: var(--accent-peach); }
+
+/* Error Messages */
+.error-msg {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+}
+
+/* --- BUTTONS --- */
+.gradient-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-peach));
+    color: var(--bg-dark);
+    transition: transform 0.2s;
+}
+.gradient-btn:hover { transform: translateY(-2px); }
+
+/* --- LINKS --- */
+.links { margin-top: 25px; text-align: center; font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+.links a, .forgot-pass { color: var(--accent-purple); text-decoration: none; font-weight: bold; transition: 0.3s; }
+.links a:hover, .forgot-pass:hover { color: var(--accent-peach); }
+.forgot-pass { display: block; text-align: right; font-size: 0.85rem; margin-bottom: 20px; }
+
+.auth-message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    animation: slideDown 0.3s ease-out;
+}
+
+.auth-message.success {
+    background: rgba(0, 255, 136, 0.2);
+    border: 1px solid #00ff88;
+    color: #ccffdd;
+}
+
+.auth-message.error {
+    background: rgba(255, 0, 85, 0.2);
+    border: 1px solid #ff0055;
+    color: #ffcccc;
+}
+
+/* --- MESSAGES --- */
+.msg-box { padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 0.9rem; display: none; }
+.error { background: rgba(255, 0, 85, 0.2); border: 1px solid #ff0055; color: #ffcccc; }
+.success { background: rgba(0, 255, 136, 0.2); border: 1px solid #00ff88; color: #ccffdd; }
+
+/* --- ANIMATIONS & INTERACTIONS --- */
+
+/* Shake animation for form errors */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Loading state for buttons */
+.gradient-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+    position: relative;
+}
+
+.gradient-btn:disabled::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: var(--bg-dark);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success state styling */
+.gradient-btn.success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    animation: successPulse 0.6s ease-in-out;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Input validation states */
+.input-group.error input {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+    animation: errorShake 0.3s ease-in-out;
+}
+
+.input-group.success input {
+    border-color: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* Error message animations */
+.error-msg {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Password toggle icon animations */
+.toggle-password {
+    transition: all 0.3s ease;
+}
+
+.toggle-password:active {
+    transform: scale(0.9);
+}
+
+/* Form submission feedback */
+.auth-card.submitting {
+    pointer-events: none;
+}
+
+.auth-card.submitting::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.auth-card.submitting::before {
+    content: 'Verifying...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    z-index: 11;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 30px;
+    border-radius: 10px;
+    border: 1px solid var(--accent-purple);
+}
+
+/* Enhanced focus states */
+.input-group input:focus {
+    border-color: var(--accent-peach);
+    box-shadow: 0 0 15px rgba(188, 94, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Responsive enhancements */
+@media (max-width: 480px) {
+    .auth-card {
+        margin: 10px;
+        padding: 30px 20px;
+    }
+    
+    .header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .input-group input {
+        padding: 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .gradient-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .shake,
+    .gradient-btn,
+    .input-group input,
+    .error-msg,
+    .toggle-password {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-dark: #0a0a0a;
+        --accent-purple: #bc5eff;
+        --accent-peach: #ffd8c6;
+    }
+}

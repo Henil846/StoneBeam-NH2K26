@@ -1,0 +1,287 @@
+/* --- 1. SHARED PALETTE (Same as Login) --- */
+:root {
+    --bg-dark: #1e0638;       /* Deep Purple */
+    --accent-purple: #bc5eff; /* Neon Purple */
+    --accent-peach: #ffd8c6;  /* Peach */
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(188, 94, 255, 0.3);
+    --text-white: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-dark);
+    /* The Mesh Gradient Background */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(188, 94, 255, 0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 216, 198, 0.1) 0%, transparent 20%);
+    background-attachment: fixed; /* Keeps gradient still while scrolling */
+    color: var(--text-white);
+    line-height: 1.6;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* --- 2. GLASS HEADER --- */
+.glass-header {
+    background: rgba(30, 6, 56, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-flex { display: flex; justify-content: space-between; align-items: center; }
+
+/* Gradient Logo */
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--accent-peach), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.glass-header nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.glass-header nav a:hover, .glass-header nav a.active { color: var(--accent-purple); }
+
+/* Portal Login Button */
+.nav-btn {
+    border: 1px solid var(--accent-purple);
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: var(--accent-purple) !important;
+}
+.nav-btn:hover {
+    background: var(--accent-purple);
+    color: var(--bg-dark) !important;
+    box-shadow: 0 0 10px rgba(188, 94, 255, 0.4);
+}
+
+/* --- 3. HERO & SEARCH --- */
+.hero-section {
+    text-align: center;
+    padding: 60px 0;
+}
+
+.gradient-text {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, var(--accent-peach), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-section p { color: var(--text-dim); margin-bottom: 30px; font-size: 1.1rem; }
+
+.search-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    box-shadow: 0 0 20px rgba(188, 94, 255, 0.1);
+}
+
+.search-box .icon { padding-left: 20px; color: var(--accent-purple); }
+
+.search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 15px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-box button {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-peach));
+    color: var(--bg-dark);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.search-box button:hover { opacity: 0.9; transform: scale(1.05); }
+
+/* --- 4. CATEGORY PILLS --- */
+.category-bar {
+    overflow-x: auto;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.cat-pill {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: var(--text-dim);
+    padding: 8px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cat-pill:hover, .cat-pill.active {
+    background: var(--accent-purple);
+    color: var(--bg-dark);
+    border-color: var(--accent-purple);
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(188, 94, 255, 0.3);
+}
+
+/* --- 5. GRID LAYOUT --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 30px;
+    padding-bottom: 60px;
+}
+
+/* --- 6. GLASS CARDS (Articles) --- */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border-color: var(--accent-peach);
+}
+
+.card-img {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Badges */
+.badge {
+    position: absolute;
+    top: 10px; left: 10px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--bg-dark);
+}
+.badge.purple { background: var(--accent-purple); }
+.badge.peach { background: var(--accent-peach); }
+
+.card-body { padding: 20px; }
+.card-body h3 { font-size: 1.2rem; margin-bottom: 5px; color: var(--accent-peach); }
+.meta { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 10px; }
+.excerpt { font-size: 0.9rem; margin-bottom: 20px; color: rgba(255,255,255,0.8); }
+
+.read-btn {
+    color: var(--accent-purple);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+.read-btn:hover { color: var(--accent-peach); margin-left: 5px; }
+
+/* --- 7. SIDEBAR WIDGETS --- */
+.sidebar { display: flex; flex-direction: column; gap: 25px; }
+
+.glass-widget {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.widget-title {
+    color: var(--accent-purple);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.file-list { list-style: none; }
+.file-list li { margin-bottom: 15px; }
+.file-list a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.file-list a:hover { background: rgba(255,255,255,0.1); }
+.icon-box { font-size: 1.5rem; color: var(--accent-peach); }
+.file-list small { color: var(--text-dim); display: block; }
+
+/* Support Widget Highlight */
+.glass-widget.highlight {
+    background: rgba(188, 94, 255, 0.05);
+    border-color: var(--accent-purple);
+    text-align: center;
+}
+.glass-widget.highlight p { margin-bottom: 15px; color: var(--text-dim); }
+
+.gradient-btn-small {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-peach));
+    color: var(--bg-dark);
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+.gradient-btn-small:hover { transform: scale(1.05); }
+
+/* --- 8. FOOTER --- */
+footer {
+    border-top: 1px solid var(--glass-border);
+    padding: 30px;
+    text-align: center;
+    margin-top: 50px;
+    color: var(--text-dim);
+}
+.peach-text { color: var(--accent-peach); }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .grid-layout { grid-template-columns: 1fr; }
+    .hero-section h1 { font-size: 2rem; }
+    .header-flex { flex-direction: column; gap: 15px; }
+}

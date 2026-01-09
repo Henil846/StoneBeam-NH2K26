@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Demo | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #1a1a1a;
+            border-radius: 15px;
+            border: 1px solid #333;
+        }
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #2a2a2a;
+            border-radius: 10px;
+        }
+        .demo-section h3 {
+            color: #a569bd;
+            margin-bottom: 1rem;
+        }
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .demo-btn {
+            background: #a569bd;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .demo-btn:hover {
+            background: #8e44ad;
+            transform: translateY(-2px);
+        }
+        .user-selector {
+            margin-bottom: 1rem;
+        }
+        .user-selector select {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Notification Demo</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="login.html" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <div class="demo-container">
+        <h1 style="color: #a569bd; text-align: center; margin-bottom: 2rem;">
+            <i class="fa-solid fa-bell"></i> Notification System Demo
+        </h1>
+
+        <div class="demo-section">
+            <h3>User Type Selection</h3>
+            <div class="user-selector">
+                <label style="color: #fff;">Current User Type:</label>
+                <select id="userTypeSelect" onchange="changeUserType()">
+                    <option value="user">User</option>
+                    <option value="dealer">Dealer</option>
+                </select>
+            </div>
+            <div class="user-selector">
+                <label style="color: #fff;">Mock User:</label>
+                <select id="mockUserSelect" onchange="changeMockUser()">
+                    <option value="john@example.com">John Doe (User)</option>
+                    <option value="jane@example.com">Jane Smith (User)</option>
+                    <option value="contractor1">ABC Construction (Dealer)</option>
+                    <option value="contractor2">XYZ Builders (Dealer)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Test Notifications</h3>
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="testNewRequest()">
+                    <i class="fa-solid fa-plus"></i> New Quotation Request
+                </button>
+                <button class="demo-btn" onclick="testQuoteReceived()">
+                    <i class="fa-solid fa-file-invoice"></i> Quote Received
+                </button>
+                <button class="demo-btn" onclick="testQuoteAccepted()">
+                    <i class="fa-solid fa-check"></i> Quote Accepted
+                </button>
+                <button class="demo-btn" onclick="testQuoteRejected()">
+                    <i class="fa-solid fa-times"></i> Quote Rejected
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Notification Actions</h3>
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="showNotificationPanel()">
+                    <i class="fa-solid fa-bell"></i> Show Notifications
+                </button>
+                <button class="demo-btn" onclick="markAllRead()">
+                    <i class="fa-solid fa-check-double"></i> Mark All Read
+                </button>
+                <button class="demo-btn" onclick="clearAllNotifications()">
+                    <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Current Notifications</h3>
+            <div id="notificationCount" style="color: #fff; font-size: 18px;">
+                Loading...
+            </div>
+        </div>
+    </div>
+
+    <script src="notification-system.js"></script>
+    <script>
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default user
+            sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                name: 'John Doe',
+                email: 'john@example.com'
+            }));
+            sessionStorage.setItem('sb_userType', 'user');
+            
+            updateNotificationCount();
+        });
+
+        function changeUserType() {
+            const userType = document.getElementById('userTypeSelect').value;
+            sessionStorage.setItem('sb_userType', userType);
+            
+            if (userType === 'dealer') {
+                sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                    name: 'ABC Construction',
+                    email: 'contractor1@example.com'
+                }));
+            } else {
+                sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                    name: 'John Doe',
+                    email: 'john@example.com'
+                }));
+            }
+            
+            updateNotificationCount();
+        }
+
+        function changeMockUser() {
+            const mockUser = document.getElementById('mockUserSelect').value;
+            
+            if (mockUser === 'john@example.com') {
+                sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                    name: 'John Doe',
+                    email: 'john@example.com'
+                }));
+                sessionStorage.setItem('sb_userType', 'user');
+            } else if (mockUser === 'jane@example.com') {
+                sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                    name: 'Jane Smith',
+                    email: 'jane@example.com'
+                }));
+                sessionStorage.setItem('sb_userType', 'user');
+            } else if (mockUser === 'contractor1') {
+                sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                    name: 'ABC Construction',
+                    email: 'contractor1@example.com'
+                }));
+                sessionStorage.setItem('sb_userType', 'dealer');
+            } else if (mockUser === 'contractor2') {
+                sessionStorage.setItem('sb_currentUser', JSON.stringify({
+                    name: 'XYZ Builders',
+                    email: 'contractor2@example.com'
+                }));
+                sessionStorage.setItem('sb_userType', 'dealer');
+            }
+            
+            updateNotificationCount();
+        }
+
+        function testNewRequest() {
+            const mockRequest = {
+                id: 'req_' + Date.now(),
+                projectTitle: 'Kitchen Renovation Project',
+                fullName: 'John Doe',
+                email: 'john@example.com',
+                projectType: 'renovation',
+                budget: '25k-50k',
+                address: '123 Main St, City, State'
+            };
+            
+            if (window.notificationSystem) {
+                notificationSystem.notifyDealersNewRequest(mockRequest);
+                updateNotificationCount();
+            }
+        }
+
+        function testQuoteReceived() {
+            const mockQuote = {
+                id: 'quote_' + Date.now(),
+                contractorName: 'ABC Construction',
+                price: 35000,
+                timeline: '3-4 weeks',
+                description: 'Complete kitchen renovation with premium materials'
+            };
+            
+            const mockRequest = {
+                fullName: 'John Doe',
+                email: 'john@example.com',
+                projectTitle: 'Kitchen Renovation'
+            };
+            
+            if (window.notificationSystem) {
+                notificationSystem.notifyUserQuotationReceived(mockQuote, mockRequest);
+                updateNotificationCount();
+            }
+        }
+
+        function testQuoteAccepted() {
+            const mockQuote = {
+                id: 'quote_' + Date.now(),
+                contractorName: 'ABC Construction',
+                price: 35000
+            };
+            
+            if (window.notificationSystem) {
+                notificationSystem.notifyDealerQuotationStatus(mockQuote, 'accepted', 'John Doe');
+                updateNotificationCount();
+            }
+        }
+
+        function testQuoteRejected() {
+            const mockQuote = {
+                id: 'quote_' + Date.now(),
+                contractorName: 'ABC Construction',
+                price: 35000
+            };
+            
+            if (window.notificationSystem) {
+                notificationSystem.notifyDealerQuotationStatus(mockQuote, 'rejected', 'John Doe');
+                updateNotificationCount();
+            }
+        }
+
+        function showNotificationPanel() {
+            if (window.notificationSystem) {
+                notificationSystem.toggleNotifications();
+            }
+        }
+
+        function markAllRead() {
+            if (window.notificationSystem) {
+                notificationSystem.markAllAsRead();
+                updateNotificationCount();
+            }
+        }
+
+        function clearAllNotifications() {
+            localStorage.removeItem('sb_notifications');
+            if (window.notificationSystem) {
+                notificationSystem.notifications = [];
+                notificationSystem.updateNotificationCount();
+                updateNotificationCount();
+            }
+        }
+
+        function updateNotificationCount() {
+            setTimeout(() => {
+                const currentUser = JSON.parse(sessionStorage.getItem('sb_currentUser') || 'null');
+                const userType = sessionStorage.getItem('sb_userType') || 'user';
+                const notifications = JSON.parse(localStorage.getItem('sb_notifications') || '[]');
+                
+                let unreadCount = 0;
+                let totalCount = 0;
+                
+                if (currentUser) {
+                    notifications.forEach(n => {
+                        if (userType === 'dealer' && n.targetAudience === 'dealers') {
+                            totalCount++;
+                            if (!n.read) unreadCount++;
+                        } else if (userType === 'user' && n.targetAudience === 'users' && 
+                                  (n.userId === currentUser.email || n.userId === currentUser.name)) {
+                            totalCount++;
+                            if (!n.read) unreadCount++;
+                        }
+                    });
+                }
+                
+                document.getElementById('notificationCount').innerHTML = `
+                    <strong>User:</strong> ${currentUser ? currentUser.name : 'None'} (${userType})<br>
+                    <strong>Total Notifications:</strong> ${totalCount}<br>
+                    <strong>Unread:</strong> ${unreadCount}
+                `;
+            }, 100);
+        }
+    </script>
+</body>
+</html>

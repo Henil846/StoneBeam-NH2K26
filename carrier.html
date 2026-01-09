@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | StoneBeam-NH</title>
+    <link rel="stylesheet" href="carrier.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="carrier.html" class="active">Careers</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Build Your Career with <span class="highlight">StoneBeam-NH</span></h1>
+            <p>Join our team of construction professionals and help shape the future of digital construction management.</p>
+            <div class="hero-stats">
+                <div class="stat"><strong>50+</strong> Team Members</div>
+                <div class="stat"><strong>95%</strong> Employee Satisfaction</div>
+                <div class="stat"><strong>12</strong> Open Positions</div>
+            </div>
+            <a href="#openings" class="btn-primary"><i class="fa-solid fa-briefcase"></i> View Openings</a>
+        </div>
+    </header>
+
+    <section class="trust-section">
+        <div class="container">
+            <h2>Our Commitment to Authenticity</h2>
+            <p>We strictly filter profiles to ensure 100% authentic users and ban spurious profiles.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">⏱️</div>
+                    <h3>On-Time Delivery</h3>
+                    <p>Enjoy guaranteed on-time delivery or get a refund.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🛡️</div>
+                    <h3>Verified Community</h3>
+                    <p>Strict filtering for 100% authentic users.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🏗️</div>
+                    <h3>Premium Standards</h3>
+                    <p>Premium construction services at competitive rates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="job-filters">
+        <div class="container">
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="job-search" placeholder="Search jobs...">
+                </div>
+                <select id="department-filter">
+                    <option value="all">All Departments</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="operations">Operations</option>
+                    <option value="sales">Sales & Marketing</option>
+                    <option value="support">Support</option>
+                </select>
+                <select id="type-filter">
+                    <option value="all">All Types</option>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="contract">Contract</option>
+                    <option value="internship">Internship</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <section id="openings" class="jobs">
+        <div class="container">
+            <h2>Current Openings <span id="job-count">(12 positions)</span></h2>
+            <div id="jobs-container">
+                <!-- Jobs will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Modal -->
+    <div id="application-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Apply for Position</h3>
+                <span class="close" onclick="closeApplicationModal()">&times;</span>
+            </div>
+            <form id="application-form">
+                <input type="hidden" id="job-id">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="applicant-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="applicant-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="applicant-phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Experience (Years)</label>
+                    <select id="experience">
+                        <option value="0-1">0-1 years</option>
+                        <option value="2-5">2-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Resume *</label>
+                    <input type="file" id="resume" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div class="form-group">
+                    <label>Cover Letter</label>
+                    <textarea id="cover-letter" rows="4" placeholder="Tell us why you're perfect for this role..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeApplicationModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo"><i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH</div>
+                <p>Building careers in construction technology</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="help_support.html">Services</a></li>
+                    <li><a href="premium.html">Premium</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>HR Contact</h4>
+                <p><i class="fa-regular fa-envelope"></i> careers@stonebeamnh.com</p>
+                <p><i class="fa-solid fa-phone"></i> +91-7043297992</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 StoneBeam-NH | Equal Opportunity Employer</p>
+        </div>
+    </footer>
+
+    <script src="carrier.js"></script>
+</body>
+</html>

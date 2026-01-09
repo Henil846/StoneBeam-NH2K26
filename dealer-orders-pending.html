@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Pending - Dealer Dashboard | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="dealer-orders-pending.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase.js"></script>
+</head>
+<body>
+    <script>
+        const currentDealer = sessionStorage.getItem('sb_currentDealer');
+        if (!currentDealer) {
+            alert('Please login as dealer');
+            window.location.href = 'dealer-login.html';
+        }
+    </script>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH <span class="dealer-badge">DEALER</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-home.html">Dashboard</a></li>
+            <li><a href="dealer-orders-pending.html" class="active">Orders Pending</a></li>
+            <li><a href="dealer-orders.html">All Orders</a></li>
+            <li><a href="prepare-quotations.html">Prepare Quote</a></li>
+            <li><a href="upload-quotations.html">Upload Quote</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="notification-bell">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </div>
+            <div class="dealer-profile">
+                <i class="fa-solid fa-user-tie"></i>
+                <span id="dealer-name">Dealer Panel</span>
+                <div class="dealer-dropdown">
+                    <a href="dealer-profile.html"><i class="fa-solid fa-user"></i> View Profile</a>
+                    <a href="dealer-login.html" onclick="sessionStorage.clear()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-banner">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1><i class="fa-solid fa-hourglass-half"></i> Orders Pending</h1>
+                    <p>Manage and track your pending project orders, quotations, and client requests efficiently.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-number" id="hero-pending">12</span>
+                        <span class="stat-label">Pending Orders</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-number" id="hero-urgent">3</span>
+                        <span class="stat-label">Urgent</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <div class="content-header">
+            <div class="header-left">
+                <h2><i class="fa-solid fa-clipboard-list"></i> Pending Project Orders</h2>
+                <p class="header-subtitle">Review and manage orders awaiting your attention</p>
+            </div>
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-orders" placeholder="Search orders, clients, projects...">
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-secondary" id="refresh-btn">
+                        <i class="fa-solid fa-refresh"></i> Refresh
+                    </button>
+                    <button class="btn-primary" id="new-quotation-btn">
+                        <i class="fa-solid fa-plus"></i> New Quotation
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-metrics">
+            <div class="metric-card urgent">
+                <div class="metric-icon">
+                    <i class="fa-solid fa-exclamation-triangle"></i>
+                </div>
+                <div class="metric-info">
+                    <h3 id="urgent-count">3</h3>
+                    <p>Urgent Orders</p>
+                    <span class="metric-trend">+2 today</span>
+                </div>
+            </div>
+            <div class="metric-card pending">
+                <div class="metric-icon">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div class="metric-info">
+                    <h3 id="pending-count">9</h3>
+                    <p>Awaiting Response</p>
+                    <span class="metric-trend">-1 from yesterday</span>
+                </div>
+            </div>
+            <div class="metric-card quoted">
+                <div class="metric-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <div class="metric-info">
+                    <h3 id="quoted-count">15</h3>
+                    <p>Quotes Submitted</p>
+                    <span class="metric-trend">+5 this week</span>
+                </div>
+            </div>
+            <div class="metric-card revenue">
+                <div class="metric-icon">
+                    <i class="fa-solid fa-rupee-sign"></i>
+                </div>
+                <div class="metric-info">
+                    <h3 id="potential-revenue">₹2.4Cr</h3>
+                    <p>Potential Value</p>
+                    <span class="metric-trend">+₹40L this month</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters-toolbar">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fa-solid fa-list"></i> All Orders
+                </button>
+                <button class="filter-tab" data-filter="urgent">
+                    <i class="fa-solid fa-exclamation-triangle"></i> Urgent
+                </button>
+                <button class="filter-tab" data-filter="new">
+                    <i class="fa-solid fa-star"></i> New Requests
+                </button>
+                <button class="filter-tab" data-filter="quoted">
+                    <i class="fa-solid fa-file-invoice"></i> Quoted
+                </button>
+                <button class="filter-tab" data-filter="follow-up">
+                    <i class="fa-solid fa-phone"></i> Follow-up
+                </button>
+            </div>
+            <div class="sort-controls">
+                <select id="sort-orders" class="sort-select">
+                    <option value="priority">Priority First</option>
+                    <option value="date-desc">Latest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="budget-desc">Highest Budget</option>
+                    <option value="deadline">Deadline</option>
+                </select>
+                <button class="view-toggle" id="view-toggle" title="Toggle View">
+                    <i class="fa-solid fa-th-large"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="orders-workspace">
+            <div id="orders-grid" class="orders-grid">
+                <!-- Orders will be dynamically loaded here -->
+            </div>
+            
+            <div id="no-orders" class="empty-state" style="display:none;">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-inbox"></i>
+                </div>
+                <h3>No Pending Orders</h3>
+                <p>All caught up! No orders are currently pending your attention.</p>
+                <button class="btn-primary" onclick="window.location.reload()">
+                    <i class="fa-solid fa-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <div class="pagination-controls" id="pagination">
+            <button class="page-btn" id="prev-page" disabled>
+                <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <div class="page-info">
+                <span id="page-info">Page 1 of 1</span>
+                <span class="total-items" id="total-items">12 orders</span>
+            </div>
+            <button class="page-btn" id="next-page" disabled>
+                Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <footer class="dealer-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Empowering dealers with smart construction management tools.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Dealer Resources</h4>
+                <ul>
+                    <li><a href="dealer-home.html">Dashboard</a></li>
+                    <li><a href="help_support.html">Support Center</a></li>
+                    <li><a href="premium.html">Premium Plans</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <p><i class="fa-regular fa-envelope"></i> dealer-support@stonebeamnh.com</p>
+                <p><i class="fa-solid fa-phone"></i> +91-9106120047</p>
+                <p><i class="fa-brands fa-whatsapp"></i> WhatsApp Support</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Order Details Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content order-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h3 id="modal-order-title">Order Details</h3>
+                    <span class="order-priority" id="modal-priority-badge">HIGH</span>
+                </div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details-grid">
+                    <div class="detail-section client-info">
+                        <h4><i class="fa-solid fa-user"></i> Client Information</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Name:</label>
+                                <span id="modal-client-name"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Email:</label>
+                                <span id="modal-client-email"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Phone:</label>
+                                <span id="modal-client-phone"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Location:</label>
+                                <span id="modal-location" onclick="openLocationMap(this.textContent)" style="cursor: pointer; color: #667eea; text-decoration: underline;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section project-info">
+                        <h4><i class="fa-solid fa-building"></i> Project Details</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Budget:</label>
+                                <span id="modal-budget" class="budget-amount"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Deadline:</label>
+                                <span id="modal-deadline"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Status:</label>
+                                <span id="modal-status" class="status-badge"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Requested:</label>
+                                <span id="modal-requested-date"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section full-width">
+                    <h4><i class="fa-solid fa-file-text"></i> Project Description</h4>
+                    <div class="description-content" id="modal-description"></div>
+                </div>
+                
+                <div class="detail-section full-width">
+                    <h4><i class="fa-solid fa-timeline"></i> Action Timeline</h4>
+                    <div class="timeline-container" id="modal-timeline">
+                        <!-- Timeline items will be added dynamically -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" id="contact-client-btn">
+                    <i class="fa-solid fa-phone"></i> Contact Client
+                </button>
+                <button class="btn-secondary" id="schedule-visit-btn">
+                    <i class="fa-solid fa-calendar"></i> Schedule Visit
+                </button>
+                <button class="btn-primary" id="submit-quote-btn">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Submit Quote
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Quote Modal -->
+    <div id="quote-modal" class="modal">
+        <div class="modal-content quote-modal">
+            <div class="modal-header">
+                <h3>Submit Quick Quote</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="quick-quote-form" class="quote-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quote-amount">Quote Amount (₹)</label>
+                            <input type="number" id="quote-amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-timeline">Timeline (Days)</label>
+                            <input type="number" id="quote-timeline" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="quote-description">Work Description</label>
+                        <textarea id="quote-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="quote-notes">Additional Notes</label>
+                        <textarea id="quote-notes" rows="2" placeholder="Payment terms, warranty, etc."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" id="cancel-quote">Cancel</button>
+                <button type="submit" form="quick-quote-form" class="btn-primary">Submit Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="dealer-orders-pending.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+/* --- 1. PALETTE (Purple/Peach Theme) --- */
+:root {
+    --bg-dark: #1e0638;       
+    --accent-purple: #bc5eff; 
+    --accent-peach: #ffd8c6;  
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(188, 94, 255, 0.3);
+    --text-white: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-dark);
+    /* Mesh Gradient Background */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(188, 94, 255, 0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 216, 198, 0.1) 0%, transparent 20%);
+    background-attachment: fixed;
+    color: var(--text-white);
+    line-height: 1.6;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* --- 2. HEADER (Reused) --- */
+.glass-header {
+    background: rgba(30, 6, 56, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px 0;
+    position: sticky;
+    top: 0; z-index: 100;
+}
+.header-flex { display: flex; justify-content: space-between; align-items: center; }
+.logo {
+    font-size: 1.5rem; font-weight: 800;
+    background: linear-gradient(to right, var(--accent-peach), var(--accent-purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.glass-header nav a {
+    color: var(--text-dim); text-decoration: none; margin-left: 20px; font-weight: 500; transition: 0.3s;
+}
+.glass-header nav a:hover, .glass-header nav a.active { color: var(--accent-purple); }
+.nav-btn {
+    border: 1px solid var(--accent-purple); padding: 8px 18px; border-radius: 20px; color: var(--accent-purple) !important;
+}
+.nav-btn:hover { background: var(--accent-purple); color: var(--bg-dark) !important; }
+
+/* --- 3. HERO --- */
+.hero-section { text-align: center; padding: 60px 0 40px 0; }
+.subtitle { text-transform: uppercase; letter-spacing: 2px; color: var(--accent-purple); font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; }
+.gradient-text {
+    font-size: 3rem; font-weight: 800; margin-bottom: 10px;
+    background: linear-gradient(to right, var(--accent-peach), var(--accent-purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.desc { color: var(--text-dim); font-size: 1.1rem; }
+
+/* --- 4. GRID LAYOUT --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr; /* Blog Feed vs Sidebar */
+    gap: 40px;
+    padding-bottom: 80px;
+}
+
+/* --- 5. BLOG CARDS --- */
+.glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+}
+.glass-card:hover {
+    transform: translateY(-5px); border-color: var(--accent-peach); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.card-img {
+    height: 220px;
+    background-size: cover; background-position: center; position: relative;
+}
+/* Featured Card is bigger */
+.glass-card.featured { margin-bottom: 40px; }
+.glass-card.featured .card-img { height: 400px; }
+
+/* Sub Grid for smaller posts */
+.sub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* Badges */
+.badge {
+    position: absolute; top: 15px; left: 15px;
+    padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: var(--bg-dark);
+}
+.badge.purple { background: var(--accent-purple); }
+.badge.peach { background: var(--accent-peach); }
+
+.card-body { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+.meta { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px; display: flex; gap: 15px; }
+.meta i { color: var(--accent-purple); }
+
+.card-body h2 { font-size: 1.8rem; margin-bottom: 15px; color: var(--text-white); }
+.card-body h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--accent-peach); }
+.excerpt { color: rgba(255,255,255,0.8); margin-bottom: 20px; font-size: 0.95rem; }
+
+.read-btn {
+    display: inline-block; width: fit-content;
+    padding: 10px 25px;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-peach));
+    color: var(--bg-dark);
+    text-decoration: none; font-weight: bold; border-radius: 30px; transition: 0.3s;
+}
+.read-btn:hover { opacity: 0.9; }
+
+.read-link {
+    margin-top: auto; /* Push to bottom */
+    color: var(--accent-purple); text-decoration: none; font-weight: bold; font-size: 0.9rem;
+}
+.read-link:hover { color: var(--accent-peach); text-decoration: underline; }
+
+/* --- 6. SIDEBAR --- */
+.sidebar { display: flex; flex-direction: column; gap: 30px; }
+
+.glass-widget {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px; padding: 25px;
+}
+
+.widget-title {
+    color: var(--accent-peach); border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px; margin-bottom: 15px; font-size: 1.2rem;
+}
+
+/* Search Bar */
+.search-bar { display: flex; background: rgba(0,0,0,0.3); border-radius: 20px; padding: 5px; }
+.search-bar input { flex: 1; background: none; border: none; padding: 10px; color: white; outline: none; }
+.search-bar button { background: none; border: none; color: var(--accent-purple); padding: 0 15px; cursor: pointer; }
+
+/* Category List */
+.cat-list { list-style: none; }
+.cat-list li { margin-bottom: 12px; }
+.cat-list a {
+    display: flex; justify-content: space-between;
+    text-decoration: none; color: var(--text-dim); transition: 0.2s;
+}
+.cat-list a:hover { color: var(--accent-purple); }
+.cat-list span { background: rgba(188,94,255,0.1); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
+
+/* Newsletter */
+.highlight { text-align: center; border-color: var(--accent-purple); }
+.highlight p { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 15px; }
+.newsletter-form input {
+    width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.3); color: white; margin-bottom: 10px;
+}
+
+.gradient-btn-small {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-peach));
+    color: var(--bg-dark); border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;
+}
+
+/* --- 7. FOOTER --- */
+footer { border-top: 1px solid var(--glass-border); padding: 30px; text-align: center; margin-top: auto; color: var(--text-dim); }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .grid-layout { grid-template-columns: 1fr; }
+    .glass-card.featured .card-img { height: 250px; }
+    .header-flex { flex-direction: column; gap: 15px; }
+}

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | StoneBeam-NH</title>
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="profile-dropdown">
+                <button class="profile-btn" onclick="toggleProfileMenu()">
+                    <i class="fa-regular fa-user"></i> Profile
+                </button>
+                <div class="profile-menu" id="profileMenu">
+                    <a href="real-profile.html"><i class="fa-solid fa-user"></i> View Profile</a>
+                    <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-cover">
+                <div class="cover-overlay"></div>
+                <button class="change-cover-btn" onclick="changeCover()"><i class="fa-solid fa-camera"></i> Change Cover</button>
+            </div>
+            <div class="profile-main">
+                <div class="avatar-section">
+                    <div class="avatar" id="avatar">JD</div>
+                    <button class="change-avatar-btn" onclick="changeAvatar()"><i class="fa-solid fa-camera"></i></button>
+                </div>
+                <div class="profile-info">
+                    <h1 id="profileName">John Doe</h1>
+                    <p id="profileTitle">Construction Professional</p>
+                    <div class="profile-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> <span id="profileLocation">Ahmedabad, Gujarat</span></span>
+                        <span><i class="fa-solid fa-calendar"></i> Member since <span id="memberSince">2023</span></span>
+                        <span class="verification-badge"><i class="fa-solid fa-shield-check"></i> Verified</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn-primary" onclick="editProfile()"><i class="fa-solid fa-edit"></i> Edit Profile</button>
+                    <button class="btn-secondary" onclick="shareProfile()"><i class="fa-solid fa-share"></i> Share</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Navigation Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-btn active" data-tab="overview"><i class="fa-solid fa-chart-line"></i> Overview</button>
+            <button class="tab-btn" data-tab="projects"><i class="fa-solid fa-building"></i> Projects</button>
+            <button class="tab-btn" data-tab="quotes"><i class="fa-solid fa-file-invoice"></i> Quotes</button>
+            <button class="tab-btn" data-tab="reviews"><i class="fa-solid fa-star"></i> Reviews</button>
+            <button class="tab-btn" data-tab="settings"><i class="fa-solid fa-cog"></i> Settings</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Overview Tab -->
+            <div class="tab-panel active" id="overview">
+                <div class="overview-grid">
+                    <div class="stats-section">
+                        <h3>Statistics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="totalProjects">12</div>
+                                    <div class="stat-label">Total Projects</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="activeQuotes">5</div>
+                                    <div class="stat-label">Active Quotes</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number">4.8</div>
+                                    <div class="stat-label">Rating</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-rupee-sign"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number">₹2.5L</div>
+                                    <div class="stat-label">Total Spent</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-section">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list" id="activityList">
+                            <!-- Activities will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Tab -->
+            <div class="tab-panel" id="projects">
+                <div class="projects-header">
+                    <h3>My Projects</h3>
+                    <button class="btn-primary" onclick="createProject()"><i class="fa-solid fa-plus"></i> New Project</button>
+                </div>
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Projects will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Quotes Tab -->
+            <div class="tab-panel" id="quotes">
+                <div class="quotes-header">
+                    <h3>My Quotes</h3>
+                    <div class="quotes-filters">
+                        <select id="quoteFilter">
+                            <option value="all">All Quotes</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="quotes-list" id="quotesList">
+                    <!-- Quotes will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div class="tab-panel" id="reviews">
+                <div class="reviews-summary">
+                    <div class="rating-overview">
+                        <div class="rating-score">4.8</div>
+                        <div class="rating-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="rating-count">Based on 24 reviews</div>
+                    </div>
+                </div>
+                <div class="reviews-list" id="reviewsList">
+                    <!-- Reviews will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-panel" id="settings">
+                <div class="settings-sections">
+                    <div class="settings-section">
+                        <h3>Personal Information</h3>
+                        <form id="profileForm" class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" value="John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" value="john.doe@email.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" placeholder="+91-9876543210">
+                                </div>
+                                <div class="form-group">
+                                    <label for="location">Location</label>
+                                    <input type="text" id="location" placeholder="Ahmedabad, Gujarat">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bio">Bio</label>
+                                <textarea id="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <i class="fa-solid fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Preferences</h3>
+                        <div class="preferences-list">
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h4>Email Notifications</h4>
+                                    <p>Receive updates about your projects and quotes</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h4>SMS Notifications</h4>
+                                    <p>Get SMS alerts for urgent updates</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" id="smsNotifications">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-info">
+                                    <h4>Marketing Communications</h4>
+                                    <p>Receive promotional offers and updates</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" id="marketingComms">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Account Security</h3>
+                        <div class="security-actions">
+                            <button class="btn-secondary" onclick="changePassword()"><i class="fa-solid fa-key"></i> Change Password</button>
+                            <button class="btn-secondary" onclick="enable2FA()"><i class="fa-solid fa-shield"></i> Enable 2FA</button>
+                            <button class="btn-danger" onclick="deleteAccount()"><i class="fa-solid fa-trash"></i> Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <span class="close" onclick="closeModal('editModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Edit form will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="firebase.js"></script>
+    <script src="auth-manager.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="profile.js"></script>
+    <script>
+        function toggleProfileMenu() {
+            document.getElementById('profileMenu').classList.toggle('show');
+        }
+        
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.profile-dropdown')) {
+                document.getElementById('profileMenu').classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

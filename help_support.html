@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - StoneBeam-NH Construction</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="services.css">
+    <link rel="stylesheet" href="enhanced-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="help_support.html" class="active">Services</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="premium.html">Premium</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="login.html" id="login-link" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <section class="services-hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Professional Construction Services</h1>
+                <p>From residential homes to commercial complexes, we deliver excellence in every project with cutting-edge technology and expert craftsmanship.</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Client Satisfaction</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="#services" class="btn-primary">Explore Services</a>
+                    <a href="#contact" class="btn-outline">Get Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        
+        <section id="services" class="services-section">
+            <div class="section-header">
+                <h2>Our Core Services</h2>
+                <p>Comprehensive construction solutions tailored to your needs</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card residential">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-home"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Residential Construction</h3>
+                        <p>Custom homes, renovations, and residential complexes built with precision and care.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Custom Home Design</li>
+                            <li><i class="fa-solid fa-check"></i> Kitchen & Bathroom Renovation</li>
+                            <li><i class="fa-solid fa-check"></i> Home Extensions</li>
+                            <li><i class="fa-solid fa-check"></i> Interior Design</li>
+                        </ul>
+                        <div class="service-pricing">
+                            <span class="price-from">Starting from</span>
+                            <span class="price-amount">₹15L</span>
+                        </div>
+                        <button class="service-btn" data-service="residential">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="service-card commercial">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Commercial Construction</h3>
+                        <p>Office buildings, retail spaces, and commercial complexes designed for business success.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Office Buildings</li>
+                            <li><i class="fa-solid fa-check"></i> Retail Spaces</li>
+                            <li><i class="fa-solid fa-check"></i> Warehouses</li>
+                            <li><i class="fa-solid fa-check"></i> Shopping Centers</li>
+                        </ul>
+                        <div class="service-pricing">
+                            <span class="price-from">Starting from</span>
+                            <span class="price-amount">₹50L</span>
+                        </div>
+                        <button class="service-btn" data-service="commercial">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="service-card industrial">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-industry"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Industrial Construction</h3>
+                        <p>Manufacturing facilities, factories, and industrial complexes with advanced infrastructure.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Manufacturing Plants</li>
+                            <li><i class="fa-solid fa-check"></i> Industrial Warehouses</li>
+                            <li><i class="fa-solid fa-check"></i> Power Plants</li>
+                            <li><i class="fa-solid fa-check"></i> Processing Facilities</li>
+                        </ul>
+                        <div class="service-pricing">
+                            <span class="price-from">Starting from</span>
+                            <span class="price-amount">₹2Cr</span>
+                        </div>
+                        <button class="service-btn" data-service="industrial">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="service-card renovation">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-tools"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Renovation & Remodeling</h3>
+                        <p>Transform existing spaces with modern designs and sustainable solutions.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Complete Renovations</li>
+                            <li><i class="fa-solid fa-check"></i> Structural Modifications</li>
+                            <li><i class="fa-solid fa-check"></i> Energy Efficiency Upgrades</li>
+                            <li><i class="fa-solid fa-check"></i> Modern Interior Design</li>
+                        </ul>
+                        <div class="service-pricing">
+                            <span class="price-from">Starting from</span>
+                            <span class="price-amount">₹8L</span>
+                        </div>
+                        <button class="service-btn" data-service="renovation">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="service-card infrastructure">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-road"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Infrastructure Development</h3>
+                        <p>Roads, bridges, and public infrastructure projects that connect communities.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Road Construction</li>
+                            <li><i class="fa-solid fa-check"></i> Bridge Engineering</li>
+                            <li><i class="fa-solid fa-check"></i> Utility Infrastructure</li>
+                            <li><i class="fa-solid fa-check"></i> Public Facilities</li>
+                        </ul>
+                        <div class="service-pricing">
+                            <span class="price-from">Starting from</span>
+                            <span class="price-amount">₹5Cr</span>
+                        </div>
+                        <button class="service-btn" data-service="infrastructure">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="service-card consulting">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Project Management & Consulting</h3>
+                        <p>Expert guidance and project management services for successful construction delivery.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Project Planning</li>
+                            <li><i class="fa-solid fa-check"></i> Cost Estimation</li>
+                            <li><i class="fa-solid fa-check"></i> Quality Assurance</li>
+                            <li><i class="fa-solid fa-check"></i> Timeline Management</li>
+                        </ul>
+                        <div class="service-pricing">
+                            <span class="price-from">Starting from</span>
+                            <span class="price-amount">₹2L</span>
+                        </div>
+                        <button class="service-btn" data-service="consulting">Get Quote</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="section-header">
+                <h2>Our Construction Process</h2>
+                <p>A systematic approach ensuring quality and timely delivery</p>
+            </div>
+            
+            <div class="process-timeline">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Consultation & Planning</h3>
+                        <p>Initial consultation to understand your requirements and create detailed project plans.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Design & Approval</h3>
+                        <p>Architectural design, engineering drawings, and obtaining necessary permits.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Material Procurement</h3>
+                        <p>Sourcing high-quality materials and coordinating with trusted suppliers.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Construction Execution</h3>
+                        <p>Professional construction with regular quality checks and progress updates.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">05</div>
+                    <div class="step-content">
+                        <h3>Quality Assurance</h3>
+                        <p>Final inspections, quality testing, and handover with warranty coverage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="specialties-section">
+            <div class="section-header">
+                <h2>Why Choose StoneBeam-NH?</h2>
+                <p>Industry-leading expertise and commitment to excellence</p>
+            </div>
+            
+            <div class="specialties-grid">
+                <div class="specialty-item">
+                    <div class="specialty-icon">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3>Certified Professionals</h3>
+                    <p>Licensed engineers, architects, and skilled craftsmen with industry certifications.</p>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3>Sustainable Construction</h3>
+                    <p>Eco-friendly materials and energy-efficient building practices for a greener future.</p>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">
+                        <i class="fa-solid fa-shield-alt"></i>
+                    </div>
+                    <h3>Safety First</h3>
+                    <p>Comprehensive safety protocols and insurance coverage for all projects.</p>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3>On-Time Delivery</h3>
+                    <p>Proven track record of completing projects within agreed timelines and budgets.</p>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer support and project monitoring for peace of mind.</p>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3>Warranty & Maintenance</h3>
+                    <p>Comprehensive warranty coverage and ongoing maintenance services.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Ready to Start Your Project?</h2>
+                    <p>Get in touch with our experts for a free consultation and detailed project estimate.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method" onclick="window.open('tel:+919106120047')">
+                            <i class="fa-solid fa-phone"></i>
+                            <div class="method-info">
+                                <h4>Call Us</h4>
+                                <p>+91-9106120047</p>
+                                <p>+91-7043297992</p>
+                            </div>
+                        </div>
+                        <div class="contact-method" onclick="window.open('mailto:stonebeamnh@gmail.com')">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div class="method-info">
+                                <h4>Email Us</h4>
+                                <p>stonebeamnh@gmail.com</p>
+                                <p>projects@stonebeamnh.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-method" onclick="window.open('https://maps.google.com/?q=Ahmedabad,Gujarat,India')">
+                            <i class="fa-solid fa-map-marker-alt"></i>
+                            <div class="method-info">
+                                <h4>Visit Us</h4>
+                                <p>Ahmedabad, Gujarat</p>
+                                <p>Mon-Sat: 9:00 AM - 6:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quote-form-container">
+                    <form class="quote-form" id="service-quote-form">
+                        <h3>Get Free Quote</h3>
+                        <div class="form-row">
+                            <input type="text" placeholder="Full Name" required>
+                            <input type="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="tel" placeholder="Phone Number" required>
+                            <select required>
+                                <option value="">Select Service</option>
+                                <option value="residential">Residential Construction</option>
+                                <option value="commercial">Commercial Construction</option>
+                                <option value="industrial">Industrial Construction</option>
+                                <option value="renovation">Renovation & Remodeling</option>
+                                <option value="infrastructure">Infrastructure Development</option>
+                                <option value="consulting">Project Management & Consulting</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Project Location" required>
+                        <textarea placeholder="Project Details & Requirements" rows="4" required></textarea>
+                        <button type="submit" class="submit-btn">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your trusted partner in modern construction management. Building the future with innovation and excellence.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1AecM9uQYh/" target="_blank" onclick="window.open(this.href); return false;"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://twitter.com/StonebeamNH2025" target="_blank" onclick="window.open(this.href); return false;"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/stonebeam-nh-stonebeam-nh-44b4143a2" target="_blank" onclick="window.open(this.href); return false;"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/stone_beam.nh" target="_blank" onclick="window.open(this.href); return false;"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Residential Construction</a></li>
+                    <li><a href="#services">Commercial Construction</a></li>
+                    <li><a href="#services">Industrial Projects</a></li>
+                    <li><a href="#services">Renovation Services</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p><i class="fa-regular fa-envelope"></i> <a href="mailto:stonebeamnh@gmail.com" style="color: inherit; text-decoration: none;">stonebeamnh@gmail.com</a></p>
+                <p><i class="fa-solid fa-phone"></i> +917043297992 / +91-9106120047</p>
+                <p><i class="fa-solid fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=Ahmedabad,Gujarat,India" target="_blank" style="color: inherit; text-decoration: none;">Ahmedabad, Gujarat</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 StoneBeam-NH. All rights reserved.</span>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Service Quote Modal -->
+    <div id="quote-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-service-title">Request Quote</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="modal-quote-form" class="modal-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Location</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Budget</label>
+                        <select required>
+                            <option value="">Select Budget Range</option>
+                            <option value="5-15">₹5L - ₹15L</option>
+                            <option value="15-50">₹15L - ₹50L</option>
+                            <option value="50-100">₹50L - ₹1Cr</option>
+                            <option value="100+">₹1Cr+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Timeline</label>
+                        <select required>
+                            <option value="">Select Timeline</option>
+                            <option value="1-3">1-3 months</option>
+                            <option value="3-6">3-6 months</option>
+                            <option value="6-12">6-12 months</option>
+                            <option value="12+">12+ months</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Details</label>
+                        <textarea rows="4" placeholder="Describe your project requirements..." required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" id="cancel-quote">Cancel</button>
+                <button type="submit" form="modal-quote-form" class="btn-primary">Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="support.js"></script>
+</body>
+</html>

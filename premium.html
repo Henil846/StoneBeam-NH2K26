@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Assurance | StoneBeam-NH</title>
+    <link rel="stylesheet" href="premium.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-flex">
+            <div class="logo">
+                <i class="fa-solid fa-screwdriver-wrench"></i>StoneBeam-NH 
+                <span class="gold-text">PREMIUM</span></div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="#" class="active">Premium Plan</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="premium-hero">
+        <div class="hero-inner">
+            <div class="container hero-content">
+                <h1>Built on Trust. Secured by Guarantee.</h1>
+                <p>Our Premium Assurance Plan protects your timeline, materials and investment — with real guarantees and fast support.</p>
+                <div class="hero-actions">
+                    <a href="#quotation" class="cta-button">Get Premium Quote</a>
+                    <a href="#pricing" class="cta-outline">See Plans</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        
+        <div class="policy-grid">
+            <div class="card benefit-card">
+                <div class="icon">⏱️</div>
+                <h2>Delay Protection Guarantee</h2>
+                <p class="summary">We value your time. If we miss a deadline, we pay you.</p>
+                <hr>
+                <div class="details">
+                    <p>At StoneBeam-NH, we stick to our schedule. If the handling team causes a delay in the completion process beyond the agreed timeline:</p>
+                    <ul>
+                        <li><strong>1-3 Days Delay:</strong> 2% Deduction from final bill.</li>
+                        <li><strong>4-7 Days Delay:</strong> 5% Deduction from final bill.</li>
+                        <li><strong>7+ Days Delay:</strong> 10% Deduction from final bill.</li>
+                    </ul>
+                    <p class="note">*Excludes delays caused by "Force Majeure" (weather, natural disasters).</p>
+                </div>
+            </div>
+
+            <div class="card protection-card">
+                <div class="icon">🛡️</div>
+                <h2>Order Integrity & Cancellation</h2>
+                <p class="summary">Commitment to materials and logistics.</p>
+                <hr>
+                <div class="details">
+                    <p>Once an order has been processed (Accepted, Materials Sourced, or Shipment Initiated), our resources are already allocated. Therefore:</p>
+                    <p><strong>If you cancel the order after the completion of the processing stage:</strong></p>
+                    <div class="highlight-box">
+                        <h3>50% Retention Fee</h3>
+                        <p>StoneBeam-NH reserves the right to retain <strong>half (50%)</strong> of the total payment amount to cover material and handling costs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="pricing" class="pricing-section">
+            <h2>Choose a Support Level</h2>
+            <p class="muted">Transparent pricing with clear protection levels — pick what fits your project.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$6<span>/mo</span></div>
+                    <ul>
+                        <li>Delay Protection (Basic)</li>
+                        <li>Order Integrity Alerts</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="select-plan" data-plan="starter" data-price="6">Select Starter</button>
+                </div>
+                <div class="pricing-card recommended">
+                    <h3>Business</h3>
+                    <div class="price">$14<span>/mo</span></div>
+                    <ul>
+                        <li>Delay Protection (Priority)</li>
+                        <li>Reduced cancellation fee</li>
+                        <li>Phone + Email support</li>
+                    </ul>
+                    <button class="select-plan" data-plan="business" data-price="14">Select Business</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>Premium</h3>
+                    <div class="price">$23<span>/mo</span></div>
+                    <ul>
+                        <li>Full monetary protection</li>
+                        <li>Dedicated account manager</li>
+                        <li>Priority logistics handling</li>
+                    </ul>
+                    <button class="select-plan" data-plan="premium" data-price="23">Select Premium</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="quotation" class="quote-section">
+            <h2>Request a Premium Quotation</h2>
+            <p>Ready to start? Fill out the details below.</p>
+            <form class="premium-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="text" placeholder="Project Type (e.g., Residential, Commercial)" required>
+                <button type="submit">Submit Request</button>
+            </form>
+        </section>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="payment-modal">
+            <div class="payment-content">
+                <div class="payment-header">
+                    <h3>Complete Your Payment</h3>
+                    <button class="close-payment">&times;</button>
+                </div>
+                <div class="payment-body">
+                    <div class="plan-summary">
+                        <h4 id="selected-plan">Business Plan</h4>
+                        <div class="price-display">$<span id="plan-price">14</span>/month</div>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <h4>Choose Payment Method</h4>
+                        <div class="payment-options">
+                            <div class="payment-option" data-method="card">
+                                <i class="fa-solid fa-credit-card"></i>
+                                <span>Credit/Debit Card</span>
+                            </div>
+                            <div class="payment-option" data-method="upi">
+                                <i class="fa-solid fa-mobile-alt"></i>
+                                <span>UPI Payment</span>
+                            </div>
+                            <div class="payment-option" data-method="paypal">
+                                <i class="fa-brands fa-paypal"></i>
+                                <span>PayPal</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Payment Form -->
+                    <div id="card-form" class="payment-form">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" placeholder="John Doe">
+                        </div>
+                        <button class="pay-button">Pay $<span class="pay-amount">14</span></button>
+                    </div>
+                    
+                    <!-- UPI Payment -->
+                    <div id="upi-form" class="payment-form" style="display:none;">
+                        <div class="qr-section">
+                            <h4>Scan QR Code to Pay</h4>
+                            <div class="qr-code">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2ZmZiIvPgogIDxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIGZpbGw9IiMwMDAiLz4KICA8cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTYwIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3QgeD0iMzAiIHk9IjMwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iIzAwMCIvPgogIDxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNmZmYiLz4KICA8dGV4dCB4PSIxMDAiIHk9IjEwNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMDAwIj5RUjwvdGV4dD4KPC9zdmc+" alt="UPI QR Code">
+                            </div>
+                            <p>Or enter UPI ID manually:</p>
+                            <div class="form-group">
+                                <input type="text" placeholder="yourname@upi" class="upi-input">
+                            </div>
+                        </div>
+                        <button class="pay-button">Pay with UPI</button>
+                    </div>
+                    
+                    <!-- PayPal Payment -->
+                    <div id="paypal-form" class="payment-form" style="display:none;">
+                        <div class="paypal-section">
+                            <div class="paypal-logo">
+                                <i class="fa-brands fa-paypal" style="font-size:3rem;color:#0070ba;"></i>
+                            </div>
+                            <p>You will be redirected to PayPal to complete your payment securely.</p>
+                            <div class="payment-details">
+                                <div class="detail-row">
+                                    <span>Plan:</span>
+                                    <span id="paypal-plan">Business</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Amount:</span>
+                                    <span>$<span id="paypal-amount">14</span>/month</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="pay-button paypal-btn">Continue with PayPal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 StoneBeam-NH. All rights reserved.</p>
+        </div>
+    </footer>
+      <script src="premium.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Profile | StoneBeam-NH</title>
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-home.html">Dashboard</a></li>
+            <li><a href="dealer-orders-pending.html">Orders Pending</a></li>
+            <li><a href="dealer.html">All Orders</a></li>
+            <li><a href="prepare-quotations.html">Prepare Quote</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="dealer-login.html" onclick="sessionStorage.clear()" class="login-btn">
+                <i class="fa-solid fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-cover">
+                <div class="cover-overlay"></div>
+            </div>
+            <div class="profile-main">
+                <div class="avatar-section">
+                    <div class="avatar" id="avatar">D</div>
+                </div>
+                <div class="profile-info">
+                    <h1 id="profileName">Dealer Name</h1>
+                    <p id="profileTitle">Construction Dealer</p>
+                    <div class="profile-meta">
+                        <span><i class="fa-solid fa-building"></i> <span id="businessName">Business Name</span></span>
+                        <span><i class="fa-solid fa-envelope"></i> <span id="profileEmail">dealer@email.com</span></span>
+                        <span class="verification-badge"><i class="fa-solid fa-shield-check"></i> Verified Dealer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <button class="tab-btn active" data-tab="overview"><i class="fa-solid fa-chart-line"></i> Overview</button>
+            <button class="tab-btn" data-tab="quotations"><i class="fa-solid fa-file-invoice"></i> Quotations</button>
+            <button class="tab-btn" data-tab="orders"><i class="fa-solid fa-box"></i> Orders</button>
+            <button class="tab-btn" data-tab="settings"><i class="fa-solid fa-cog"></i> Settings</button>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-panel active" id="overview">
+                <div class="overview-grid">
+                    <div class="stats-section">
+                        <h3>Business Statistics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number">25</div>
+                                    <div class="stat-label">Quotations Sent</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number">18</div>
+                                    <div class="stat-label">Orders Completed</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number">4.8</div>
+                                    <div class="stat-label">Rating</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-rupee-sign"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number">₹15L</div>
+                                    <div class="stat-label">Total Revenue</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="quotations">
+                <h3>Recent Quotations</h3>
+                <div id="quotationsList">
+                    <p>No quotations found. <a href="prepare-quotations.html">Create your first quotation</a></p>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="orders">
+                <h3>Order History</h3>
+                <div id="ordersList">
+                    <p>No orders found.</p>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="settings">
+                <div class="settings-sections">
+                    <div class="settings-section">
+                        <h3>Business Information</h3>
+                        <form id="dealerProfileForm" class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="businessName">Business Name</label>
+                                    <input type="text" id="businessNameInput" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactName">Contact Person</label>
+                                    <input type="text" id="contactName" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Business Address</label>
+                                <textarea id="address" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <i class="fa-solid fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentDealer = JSON.parse(sessionStorage.getItem('sb_currentDealer'));
+            
+            if (!currentDealer) {
+                window.location.href = 'dealer-login.html';
+                return;
+            }
+
+            // Load dealer profile data
+            loadDealerProfile(currentDealer);
+            
+            // Tab functionality
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                    
+                    btn.classList.add('active');
+                    document.getElementById(btn.dataset.tab).classList.add('active');
+                });
+            });
+
+            // Form submission
+            document.getElementById('dealerProfileForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveDealerProfile();
+            });
+
+            loadQuotations();
+        });
+
+        function loadDealerProfile(dealer) {
+            document.getElementById('profileName').textContent = dealer.name || dealer.businessName;
+            document.getElementById('businessName').textContent = dealer.businessName || 'Business Name';
+            document.getElementById('profileEmail').textContent = dealer.email;
+            document.getElementById('avatar').textContent = (dealer.name || dealer.businessName || 'D').charAt(0).toUpperCase();
+            
+            // Fill form fields
+            document.getElementById('businessNameInput').value = dealer.businessName || '';
+            document.getElementById('contactName').value = dealer.name || '';
+            document.getElementById('email').value = dealer.email || '';
+            document.getElementById('phone').value = dealer.phone || '';
+            document.getElementById('address').value = dealer.address || '';
+        }
+
+        function saveDealerProfile() {
+            const currentDealer = JSON.parse(sessionStorage.getItem('sb_currentDealer'));
+            
+            currentDealer.businessName = document.getElementById('businessNameInput').value;
+            currentDealer.name = document.getElementById('contactName').value;
+            currentDealer.email = document.getElementById('email').value;
+            currentDealer.phone = document.getElementById('phone').value;
+            currentDealer.address = document.getElementById('address').value;
+            
+            sessionStorage.setItem('sb_currentDealer', JSON.stringify(currentDealer));
+            
+            // Update in localStorage dealers array
+            const dealers = JSON.parse(localStorage.getItem('sb_dealers') || '[]');
+            const dealerIndex = dealers.findIndex(d => d.id === currentDealer.id);
+            if (dealerIndex !== -1) {
+                dealers[dealerIndex] = currentDealer;
+                localStorage.setItem('sb_dealers', JSON.stringify(dealers));
+            }
+            
+            loadDealerProfile(currentDealer);
+            alert('Profile updated successfully!');
+        }
+
+        function loadQuotations() {
+            const quotations = JSON.parse(localStorage.getItem('sb_quotations') || '[]');
+            const quotationsList = document.getElementById('quotationsList');
+            
+            if (quotations.length === 0) {
+                quotationsList.innerHTML = '<p>No quotations found. <a href="prepare-quotations.html">Create your first quotation</a></p>';
+                return;
+            }
+            
+            quotationsList.innerHTML = quotations.slice(-5).map(q => `
+                <div class="quote-card">
+                    <div class="quote-header">
+                        <h4>${q.clientName}</h4>
+                        <span class="quote-status ${q.status}">${q.status}</span>
+                    </div>
+                    <div class="quote-details">
+                        <p><strong>Project:</strong> ${q.projectType}</p>
+                        <p><strong>Total:</strong> ₹${q.total?.toFixed(2) || '0.00'}</p>
+                        <p><strong>Date:</strong> ${new Date(q.createdAt).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

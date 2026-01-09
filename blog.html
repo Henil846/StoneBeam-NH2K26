@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="login.html" id="login-link" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <header class="blog-header">
+        <div class="main-container">
+            <h1>Construction Industry Insights</h1>
+            <p>Stay updated with the latest trends, tips, and innovations in construction management</p>
+            
+            <div class="blog-search">
+                <input type="text" placeholder="Search articles..." id="blog-search-input">
+                <button id="blog-search-btn"><i class="fa-solid fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="blog-layout">
+            <main class="blog-main">
+                <div class="blog-header-actions">
+                    <a href="create-post.html" class="write-post-btn"><i class="fa-solid fa-pen"></i> Write Post</a>
+                </div>
+                
+                <div class="blog-filters">
+                    <button class="filter-btn active" data-category="all">All Posts</button>
+                    <button class="filter-btn" data-category="technology">Technology</button>
+                    <button class="filter-btn" data-category="safety">Safety</button>
+                    <button class="filter-btn" data-category="management">Management</button>
+                    <button class="filter-btn" data-category="tips">Tips & Tricks</button>
+                </div>
+
+                <div class="blog-posts" id="blog-posts">
+                    <article class="blog-post" data-category="technology">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop" alt="Construction Technology">
+                            <div class="post-category">Technology</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 15, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> StoneBeam Team</span>
+                                <span><i class="fa-regular fa-clock"></i> 5 min read</span>
+                            </div>
+                            <h2><a href="blog-post-1.html">How Digital Quotations Are Revolutionizing Construction</a></h2>
+                            <p>Discover how our digital quotation system is streamlining the construction bidding process and reducing project delays by up to 40%. Learn about the key features that make digital quotations more efficient than traditional methods.</p>
+                            <div class="post-footer">
+                                <a href="blog-post-1.html" class="read-more">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+                                <div class="post-stats">
+                                    <span><i class="fa-regular fa-eye"></i> 1.2k</span>
+                                    <span><i class="fa-regular fa-heart"></i> 89</span>
+                                    <span><i class="fa-regular fa-comment"></i> 23</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post" data-category="safety">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2000&auto=format&fit=crop" alt="Construction Safety">
+                            <div class="post-category">Safety</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 12, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Safety Expert</span>
+                                <span><i class="fa-regular fa-clock"></i> 7 min read</span>
+                            </div>
+                            <h2><a href="blog-post-2.html">5 Essential Safety Protocols for Modern Construction Sites</a></h2>
+                            <p>Learn about the latest safety standards and how verified profiles ensure compliance across all projects. This comprehensive guide covers everything from personal protective equipment to site-wide safety management systems.</p>
+                            <div class="post-footer">
+                                <a href="blog-post-2.html" class="read-more">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+                                <div class="post-stats">
+                                    <span><i class="fa-regular fa-eye"></i> 856</span>
+                                    <span><i class="fa-regular fa-heart"></i> 67</span>
+                                    <span><i class="fa-regular fa-comment"></i> 15</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post" data-category="management">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop" alt="Project Management">
+                            <div class="post-category">Management</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 10, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Project Manager</span>
+                                <span><i class="fa-regular fa-clock"></i> 6 min read</span>
+                            </div>
+                            <h2><a href="blog-post-3.html">Maximizing ROI with Premium Verified Contractors</a></h2>
+                            <p>Case study: How premium membership reduced project costs by 25% through verified contractor networks. Explore real-world examples and actionable strategies for improving your construction project outcomes.</p>
+                            <div class="post-footer">
+                                <a href="blog-post-3.html" class="read-more">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+                                <div class="post-stats">
+                                    <span><i class="fa-regular fa-eye"></i> 1.5k</span>
+                                    <span><i class="fa-regular fa-heart"></i> 124</span>
+                                    <span><i class="fa-regular fa-comment"></i> 31</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post" data-category="tips">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1581094794329-cd67bcecfbbf?q=80&w=2000&auto=format&fit=crop" alt="Construction Tips">
+                            <div class="post-category">Tips & Tricks</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 8, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Industry Expert</span>
+                                <span><i class="fa-regular fa-clock"></i> 4 min read</span>
+                            </div>
+                            <h2><a href="blog-post-4.html">10 Time-Saving Tips for Construction Project Management</a></h2>
+                            <p>Practical advice from industry veterans on how to streamline your construction workflows. From digital documentation to automated scheduling, discover tools and techniques that can save hours every week.</p>
+                            <div class="post-footer">
+                                <a href="blog-post-4.html" class="read-more">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+                                <div class="post-stats">
+                                    <span><i class="fa-regular fa-eye"></i> 943</span>
+                                    <span><i class="fa-regular fa-heart"></i> 78</span>
+                                    <span><i class="fa-regular fa-comment"></i> 19</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post" data-category="technology">
+                        <div class="post-image">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=2000&auto=format&fit=crop" alt="Construction Technology">
+                            <div class="post-category">Technology</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 5, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Tech Team</span>
+                                <span><i class="fa-regular fa-clock"></i> 8 min read</span>
+                            </div>
+                            <h2><a href="blog-post-5.html">The Future of Construction: AI and Machine Learning</a></h2>
+                            <p>Explore how artificial intelligence is transforming the construction industry. From predictive analytics to automated quality control, learn about the technologies that are shaping the future of building.</p>
+                            <div class="post-footer">
+                                <a href="blog-post-5.html" class="read-more">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+                                <div class="post-stats">
+                                    <span><i class="fa-regular fa-eye"></i> 2.1k</span>
+                                    <span><i class="fa-regular fa-heart"></i> 156</span>
+                                    <span><i class="fa-regular fa-comment"></i> 42</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="pagination">
+                    <button class="page-btn" disabled><i class="fa-solid fa-chevron-left"></i> Previous</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">Next <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </main>
+
+            <aside class="blog-sidebar">
+                <div class="sidebar-widget">
+                    <h3>Popular Posts</h3>
+                    <div class="popular-posts">
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=100&auto=format&fit=crop" alt="Popular post">
+                            <div>
+                                <h4><a href="blog-post-1.html">Digital Quotations Revolution</a></h4>
+                                <span>1.2k views</span>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=100&auto=format&fit=crop" alt="Popular post">
+                            <div>
+                                <h4><a href="blog-post-5.html">AI in Construction</a></h4>
+                                <span>2.1k views</span>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=100&auto=format&fit=crop" alt="Popular post">
+                            <div>
+                                <h4><a href="blog-post-3.html">Premium ROI Benefits</a></h4>
+                                <span>1.5k views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3>Categories</h3>
+                    <div class="categories">
+                        <a href="#" data-category="technology">Technology <span>(12)</span></a>
+                        <a href="#" data-category="safety">Safety <span>(8)</span></a>
+                        <a href="#" data-category="management">Management <span>(15)</span></a>
+                        <a href="#" data-category="tips">Tips & Tricks <span>(10)</span></a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget newsletter-widget">
+                    <h3><i class="fa-regular fa-envelope"></i> Newsletter</h3>
+                    <p>Get weekly construction insights delivered to your inbox.</p>
+                    <form class="sidebar-newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="help_support.html">Help Center</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope"></i> <a href="mailto:stonebeamnh@gmail.com">stonebeamnh@gmail.com</a></p>
+                <p><i class="fa-solid fa-phone"></i> <a href="tel:+917043297992">+91-7043297992</a> / <a href="tel:+919106120047">+91-9106120047</a></p>
+                <p><i class="fa-solid fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=Ahmedabad,Gujarat,India" target="_blank">Ahmedabad, Gujarat</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="blog.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="login.html" id="login-link" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <div class="create-post-container">
+        <div class="main-container">
+            <div class="create-post-header">
+                <h1><i class="fa-solid fa-pen"></i> Create New Post</h1>
+                <p>Share your construction industry insights with the community</p>
+            </div>
+
+            <form class="create-post-form" id="create-post-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-title">Post Title *</label>
+                        <input type="text" id="post-title" name="title" required placeholder="Enter your post title">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-category">Category *</label>
+                        <select id="post-category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="technology">Technology</option>
+                            <option value="safety">Safety</option>
+                            <option value="management">Management</option>
+                            <option value="tips">Tips & Tricks</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-excerpt">Post Excerpt *</label>
+                    <textarea id="post-excerpt" name="excerpt" required placeholder="Brief description of your post (max 200 characters)" maxlength="200"></textarea>
+                    <span class="char-count">0/200</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-image">Featured Image</label>
+                    <div class="image-upload">
+                        <input type="file" id="post-image" name="image" accept="image/*">
+                        <div class="image-preview" id="image-preview">
+                            <i class="fa-solid fa-cloud-upload"></i>
+                            <span>Click to upload or drag image here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-content">Post Content *</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="editor-btn" data-command="bold"><i class="fa-solid fa-bold"></i></button>
+                        <button type="button" class="editor-btn" data-command="italic"><i class="fa-solid fa-italic"></i></button>
+                        <button type="button" class="editor-btn" data-command="underline"><i class="fa-solid fa-underline"></i></button>
+                        <button type="button" class="editor-btn" data-command="insertUnorderedList"><i class="fa-solid fa-list-ul"></i></button>
+                        <button type="button" class="editor-btn" data-command="insertOrderedList"><i class="fa-solid fa-list-ol"></i></button>
+                        <button type="button" class="editor-btn" data-command="createLink"><i class="fa-solid fa-link"></i></button>
+                    </div>
+                    <div class="editor-content" id="post-content" contenteditable="true" placeholder="Write your post content here..."></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-tags">Tags</label>
+                    <input type="text" id="post-tags" name="tags" placeholder="Enter tags separated by commas (e.g., construction, management, tips)">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="window.location.href='blog.html'">Cancel</button>
+                    <button type="button" class="btn-draft" id="save-draft">Save Draft</button>
+                    <button type="submit" class="btn-primary">Publish Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="create-post.js"></script>
+</body>
+</html>

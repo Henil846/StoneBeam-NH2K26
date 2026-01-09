@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Dashboard | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #000; color: #fff; }
+        .dashboard-container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .dashboard-header h1 { color: #a569bd; font-size: 2.5rem; }
+        .dashboard-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 1.5rem; border-radius: 15px; border: 1px solid #333; }
+        .stat-card h3 { color: #a569bd; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; }
+        .stat-card .value { font-size: 2rem; font-weight: bold; color: #fff; }
+        .requests-section { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); border-radius: 15px; padding: 2rem; border: 1px solid #333; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .section-header h2 { color: #a569bd; margin: 0; }
+        .header-actions { display: flex; align-items: center; gap: 1rem; }
+        .filter-options { display: flex; align-items: center; }
+        .request-card { background: rgba(165, 105, 189, 0.1); border: 1px solid #555; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+        .request-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .request-title { color: #fff; font-size: 1.2rem; font-weight: bold; }
+        .request-budget { color: #27ae60; font-weight: bold; }
+        .request-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .detail-item { display: flex; align-items: center; gap: 0.5rem; color: #ccc; font-size: 0.9rem; }
+        .detail-item i { color: #a569bd; width: 16px; }
+        .request-description { color: #ddd; margin-bottom: 1rem; line-height: 1.5; }
+        .quote-form { background: #222; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: #a569bd; font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #555; border-radius: 6px; background: #333; color: #fff; }
+        .btn-submit-quote { background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-submit-quote:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3); }
+        .quote-status { padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; }
+        .status-pending { background: #f39c12; color: #000; }
+        .status-quoted { background: #27ae60; color: #fff; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="find-projects.html">Find Projects</a></li>
+            <li><a href="my-quotes.html">My Quotes</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="index.html" class="login-btn"><i class="fa-solid fa-user-tie"></i> Dealer</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1><i class="fa-solid fa-chart-line"></i> Dealer Dashboard</h1>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="refreshRequests()">
+                    <i class="fa-solid fa-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>Active Requests</h3>
+                <div class="value" id="activeRequests">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Quotes Submitted</h3>
+                <div class="value" id="quotesSubmitted">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Accepted Quotes</h3>
+                <div class="value" id="acceptedQuotes">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Revenue</h3>
+                <div class="value" id="totalRevenue">$0</div>
+            </div>
+        </div>
+
+        <div class="requests-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-clipboard-list"></i> Quotation Requests</h2>
+                <div class="header-actions">
+                    <a href="find-projects.html" class="btn-primary" style="margin-right: 1rem; text-decoration: none;">
+                        <i class="fa-solid fa-search"></i> Find More Projects
+                    </a>
+                    <div class="filter-options">
+                        <select id="requestFilter" onchange="filterRequests()">
+                            <option value="all">Pending</option>
+                            <option value="pending">All Requests</option>
+                            <option value="quoted">Already Quoted</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="requestsList">
+                <!-- Requests will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="notification-system.js"></script>
+    <script src="dealer-dashboard.js"></script>
+</body>
+</html>

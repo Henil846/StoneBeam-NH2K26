@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="upload-modern.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+        </ul>
+        <div class="nav-actions">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="login.html" id="login-link" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <section class="hero" style="background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2000&auto=format&fit=crop');">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Project Document Hub</h1>
+                <p>Upload blueprints, contracts, permits, and project files with enterprise-grade security and version control.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <div class="content-header">
+            <h2>Document Management System</h2>
+            <p>Upload, organize, and share construction documents with real-time collaboration</p>
+        </div>
+
+        <div class="upload-layout">
+            <div class="upload-main">
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon">
+                        <i class="fa-solid fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Drag & Drop Files Here</h3>
+                    <p>or <span class="upload-link">browse files</span> from your computer</p>
+                    <p class="upload-info">Supported: PDF, DWG, CAD, DOC, DOCX, XLS, JPG, PNG, MP4 (Max 100MB per file)</p>
+                    <input type="file" id="file-input" multiple style="display: none;">
+                </div>
+
+                <div class="upload-options">
+                    <div class="option-group">
+                        <label for="project-select">Select Project:</label>
+                        <select id="project-select">
+                            <option value="">Choose a project...</option>
+                            <option value="project1">Skyline Residency - Ahmedabad (₹2.5Cr)</option>
+                            <option value="project2">TechHub Office Complex - Gandhinagar (₹8.2Cr)</option>
+                            <option value="project3">Industrial Park Phase-II - Sanand (₹15Cr)</option>
+                            <option value="project4">Green Valley Apartments - Bopal (₹4.8Cr)</option>
+                            <option value="project5">Metro Mall Extension - SG Highway (₹12Cr)</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="file-category">File Category:</label>
+                        <select id="file-category">
+                            <option value="blueprints">Architectural Blueprints</option>
+                            <option value="structural">Structural Drawings</option>
+                            <option value="electrical">Electrical Plans</option>
+                            <option value="plumbing">Plumbing Schematics</option>
+                            <option value="contracts">Legal Contracts</option>
+                            <option value="permits">Government Permits</option>
+                            <option value="quotations">Vendor Quotations</option>
+                            <option value="progress">Progress Reports</option>
+                            <option value="safety">Safety Documentation</option>
+                            <option value="photos">Site Photography</option>
+                            <option value="videos">Construction Videos</option>
+                            <option value="other">Miscellaneous</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="file-list" class="file-list">
+                    <!-- Uploaded files will appear here -->
+                </div>
+
+                <div class="upload-actions">
+                    <button class="btn-secondary" id="upload-btn">Upload Files</button>
+                    <button class="btn-outline" id="clear-btn">Clear All</button>
+                </div>
+            </div>
+
+            <div class="upload-sidebar">
+                <div class="settings-card">
+                    <h4><i class="fa-solid fa-cogs"></i> Upload Settings</h4>
+                    <div class="form-group">
+                        <label for="upload-description">Description (Optional)</label>
+                        <textarea id="upload-description" placeholder="Add notes about these files..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="upload-priority">Priority Level</label>
+                        <select id="upload-priority" class="modern-select">
+                            <option value="normal">Normal</option>
+                            <option value="high">High Priority</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <button id="upload-settings-save" class="btn-upload-primary">
+                        <i class="fa-solid fa-save"></i> Save Settings
+                    </button>
+                    <div class="upload-status">Ready to upload</div>
+                </div>
+                
+                <div class="features-card">
+                    <h4><i class="fa-solid fa-shield-check"></i> Features</h4>
+                    <ul class="feature-list">
+                        <li><i class="fa-solid fa-lock"></i> Enterprise Security</li>
+                        <li><i class="fa-solid fa-users"></i> Team Collaboration</li>
+                        <li><i class="fa-solid fa-code-branch"></i> Version Control</li>
+                        <li><i class="fa-solid fa-cloud"></i> Cloud Sync</li>
+                        <li><i class="fa-solid fa-mobile-alt"></i> Mobile Access</li>
+                        <li><i class="fa-solid fa-history"></i> Activity Tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-features">
+            <h3>Upload Features</h3>
+            <div class="features-grid">
+                <div class="feature">
+                    <i class="fa-solid fa-shield-alt"></i>
+                    <h4>Enterprise Security</h4>
+                    <p>Bank-level encryption, access controls, and audit trails</p>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-users"></i>
+                    <h4>Team Collaboration</h4>
+                    <p>Real-time sharing with contractors, architects, and clients</p>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-code-branch"></i>
+                    <h4>Version Control</h4>
+                    <p>Track revisions, compare changes, and maintain document history</p>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-cloud"></i>
+                    <h4>Cloud Sync</h4>
+                    <p>Access documents anywhere with automatic cloud synchronization</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="logo">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+                </div>
+                <p>Your Trusted partner in modern construction management.</p>
+                <div class="copyright">
+                    &copy; 2025 StoneBeam-NH. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="carrier.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="help_support.html">Help Center</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope"></i> stonebeamnh@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i> +91-9106120047</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span><a href="privacy.html">Privacy Policy</a></span>
+            <span><a href="terms.html"> Terms of Service</a></span>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+    <script src="upload-real-web.js"></script>
+</body>
+</html>

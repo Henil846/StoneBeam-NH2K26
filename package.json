@@ -1,0 +1,33 @@
+{
+  "name": "stonebeam-nh-realtime-server",
+  "version": "1.0.0",
+  "description": "Real-time updates server for StoneBeam-NH Construction Management",
+  "main": "simple-server-working.js",
+  "scripts": {
+    "start": "node working-server.js",
+    "dev": "node working-server.js",
+    "full": "node server.js",
+    "test": "echo 'No tests specified' && exit 1"
+  },
+  "keywords": [
+    "sse",
+    "real-time",
+    "construction",
+    "management"
+  ],
+  "author": "StoneBeam-NH Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stonebeam-nh/realtime-server"
+  },
+  "bugs": {
+    "url": "https://github.com/stonebeam-nh/realtime-server/issues"
+  },
+  "homepage": "https://stonebeam-nh.com"
+}

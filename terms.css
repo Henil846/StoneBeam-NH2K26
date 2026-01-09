@@ -1,0 +1,137 @@
+/* --- Variables (Black & Red Theme) --- */
+:root {
+    --primary-black: #111111;
+    --accent-red: #D32F2F;
+    --bg-light: #f4f4f4;
+    --text-dark: #333;
+    --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* --- Header --- */
+.site-header {
+    background-color: var(--primary-black);
+    padding: 20px 0;
+    border-bottom: 4px solid var(--accent-red);
+    color: white;
+}
+
+.header-flex { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.4rem; font-weight: bold; text-transform: uppercase; }
+.site-header nav a { color: #bbb; text-decoration: none; margin-left: 20px; transition: 0.3s; }
+.site-header nav a:hover, .site-header nav a.active { color: var(--accent-red); }
+
+/* --- Terms Content Wrapper --- */
+.terms-wrapper {
+    background-color: var(--white);
+    max-width: 900px; /* Narrower than full width for better reading */
+    margin: 40px auto;
+    padding: 60px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-top: 5px solid var(--primary-black);
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-black);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.last-updated {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+/* --- Section Styling --- */
+section { margin-bottom: 35px; }
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-black);
+    margin-bottom: 15px;
+    border-left: 5px solid var(--accent-red);
+    padding-left: 15px;
+}
+
+p, li { color: #555; margin-bottom: 15px; }
+
+/* Styled List */
+.styled-list { list-style: none; margin-left: 20px; }
+.styled-list li {
+    position: relative;
+    padding-left: 25px;
+}
+.styled-list li::before {
+    content: '▪'; /* Square bullet */
+    color: var(--accent-red);
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -5px;
+}
+
+/* --- Alert Box for Cancellation Policy --- */
+.alert-box {
+    background-color: #fff5f5; /* Very light red */
+    border: 1px solid #fab1b1;
+    border-left: 5px solid var(--accent-red);
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    color: var(--primary-black);
+}
+
+.alert-box i {
+    color: var(--accent-red);
+    font-size: 1.5rem;
+    margin-top: 3px;
+}
+
+/* --- Links inside text --- */
+a { color: var(--accent-red); text-decoration: none; font-weight: bold; }
+a:hover { text-decoration: underline; }
+
+.contact-link {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-black);
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--primary-black);
+    color: #777;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .header-flex { flex-direction: column; gap: 15px; }
+    
+    .terms-wrapper {
+        padding: 30px 20px;
+        margin: 20px auto;
+        width: 95%;
+    }
+
+    h1 { font-size: 2rem; }
+    
+    .alert-box { flex-direction: column; }
+}

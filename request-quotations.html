@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Quotations | StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        .main-container {
+            padding: 20px 50px;
+        }
+        .quotation-form {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0;
+            background: transparent;
+        }
+        .quotation-form h1 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        .quotation-form > p {
+            color: #ccc;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border: 1px solid #333;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .form-section h3 {
+            margin-bottom: 1.5rem;
+            color: #a569bd;
+            border-bottom: 2px solid #8e44ad;
+            padding-bottom: 0.5rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #222;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #a569bd;
+            box-shadow: 0 0 0 2px rgba(165, 105, 189, 0.2);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .file-upload {
+            border: 2px dashed #a569bd;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(165, 105, 189, 0.05);
+        }
+        .file-upload:hover {
+            background: rgba(165, 105, 189, 0.1);
+            border-color: #d2527f;
+            transform: translateY(-2px);
+        }
+        .file-upload input {
+            display: none;
+        }
+        .file-upload p {
+            color: #ccc;
+            margin: 1rem 0 0.5rem;
+        }
+        .file-upload small {
+            color: #888;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.4);
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+        }
+        .required {
+            color: #e74c3c;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(165, 105, 189, 0.1);
+            border: 1px solid #555;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .file-item button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .file-item button:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        .map-container {
+            position: relative;
+            margin-top: 10px;
+        }
+        .interactive-map {
+            width: 100%;
+            height: 300px;
+            border: 2px solid #555;
+            border-radius: 8px;
+            background: #222;
+            position: relative;
+            cursor: crosshair;
+            overflow: hidden;
+        }
+        .map-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-map {
+            background: #a569bd;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-map:hover {
+            background: #8e44ad;
+            transform: translateY(-2px);
+        }
+        .location-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(165, 105, 189, 0.1);
+            border-radius: 6px;
+            color: #ccc;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .location-info i {
+            color: #a569bd;
+        }
+        .map-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e74c3c;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 10px rgba(231, 76, 60, 0.5);
+            animation: markerPulse 2s infinite;
+        }
+        @keyframes markerPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        .map-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(165, 105, 189, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 105, 189, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .quotation-form h1 {
+                font-size: 2rem;
+            }
+            .form-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="orders.html">Orders Pending</a></li>
+            <li><a href="help_support.html">Services</a></li>
+            <li><a href="premium.html">Premium</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="login.html" class="login-btn"><i class="fa-regular fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="quotation-form">
+            <h1><i class="fa-solid fa-file-invoice-dollar"></i> Request Quotation</h1>
+            <p>Fill out the form below to request quotations from verified contractors and suppliers.</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <form id="quotationForm" style="margin-top: 1rem;">
+                <!-- Project Information -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-building"></i> Project Information</h3>
+                    <div class="form-group">
+                        <label for="projectTitle">Project Title <span class="required">*</span></label>
+                        <input type="text" id="projectTitle" name="projectTitle" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="projectType">Project Type <span class="required">*</span></label>
+                            <select id="projectType" name="projectType" required>
+                                <option value="">Select Project Type</option>
+                                <option value="residential">Residential Construction</option>
+                                <option value="commercial">Commercial Construction</option>
+                                <option value="renovation">Renovation</option>
+                                <option value="interior">Interior Design</option>
+                                <option value="landscaping">Landscaping</option>
+                                <option value="electrical">Electrical Work</option>
+                                <option value="plumbing">Plumbing</option>
+                                <option value="roofing">Roofing</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Estimated Budget</label>
+                            <select id="budget" name="budget">
+                                <option value="">Select Budget Range</option>
+                                <option value="under-10k">Under $10,000</option>
+                                <option value="10k-25k">$10,000 - $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="50k-100k">$50,000 - $100,000</option>
+                                <option value="100k-250k">$100,000 - $250,000</option>
+                                <option value="over-250k">Over $250,000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectDescription">Project Description <span class="required">*</span></label>
+                        <textarea id="projectDescription" name="projectDescription" placeholder="Describe your project in detail..." required></textarea>
+                    </div>
+                </div>
+
+                <!-- Location & Timeline -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-map-marker-alt"></i> Location & Timeline</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Project Address <span class="required">*</span></label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City <span class="required">*</span></label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Map -->
+                    <div class="form-group">
+                        <label>Select Project Location on Map</label>
+                        <div class="map-container">
+                            <div id="map" class="interactive-map"></div>
+                            <div class="map-controls">
+                                <button type="button" id="getCurrentLocation" class="btn-map">
+                                    <i class="fa-solid fa-location-crosshairs"></i> Use My Location
+                                </button>
+                                <button type="button" id="clearLocation" class="btn-map">
+                                    <i class="fa-solid fa-times"></i> Clear
+                                </button>
+                            </div>
+                            <div class="location-info" id="locationInfo">
+                                <i class="fa-solid fa-info-circle"></i>
+                                <span>Click on the map to set project location</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Preferred Start Date</label>
+                            <input type="date" id="startDate" name="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="deadline">Project Deadline</label>
+                            <input type="date" id="deadline" name="deadline">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-user"></i> Contact Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="preferredContact">Preferred Contact Method</label>
+                            <select id="preferredContact" name="preferredContact">
+                                <option value="email">Email</option>
+                                <option value="phone">Phone</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Uploads -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-paperclip"></i> Project Files</h3>
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <i class="fa-solid fa-cloud-upload-alt" style="font-size: 2rem; color: #8e44ad; margin-bottom: 1rem;"></i>
+                        <p>Click to upload project files, blueprints, or reference images</p>
+                        <small>Supported formats: PDF, JPG, PNG, DWG (Max 10MB each)</small>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.dwg">
+                    </div>
+                    <div id="fileList" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Additional Requirements -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-list-check"></i> Additional Requirements</h3>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; color: #fff; font-size: 1rem;">
+                            <input type="checkbox" id="urgentProject" name="urgentProject" style="width: auto; margin: 0;">
+                            <i class="fa-solid fa-exclamation-triangle" style="color: #e74c3c;"></i>
+                            This is an urgent project
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialRequirements">Special Requirements or Notes</label>
+                        <textarea id="specialRequirements" name="specialRequirements" placeholder="Any specific materials, certifications, or special considerations..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; color: #fff; font-size: 1rem;">
+                            <input type="checkbox" id="verifiedOnly" name="verifiedOnly" checked style="width: auto; margin: 0;">
+                            <i class="fa-solid fa-shield-check" style="color: #27ae60;"></i>
+                            Only receive quotes from verified contractors
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Quotation Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="location-picker.js"></script>
+    <script src="notification-system.js"></script>
+    <script src="request-quotations.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Projects - StoneBeam-NH</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #000; color: #fff; }
+        .find-projects-container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        .page-header { text-align: center; margin-bottom: 3rem; }
+        .page-header h1 { color: #a569bd; font-size: 2.5rem; margin-bottom: 1rem; }
+        .page-header p { color: #ccc; font-size: 1.1rem; }
+        .filters-section { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 2rem; border-radius: 15px; margin-bottom: 2rem; border: 1px solid #333; }
+        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .filter-group { display: flex; flex-direction: column; }
+        .filter-group label { color: #a569bd; font-weight: 600; margin-bottom: 0.5rem; }
+        .filter-group select, .filter-group input { padding: 8px 12px; border: 1px solid #555; border-radius: 6px; background: #333; color: #fff; }
+        .projects-grid { display: grid; gap: 1.5rem; }
+        .project-card { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); border: 1px solid #333; border-radius: 15px; padding: 2rem; transition: transform 0.3s ease; }
+        .project-card:hover { transform: translateY(-5px); border-color: #a569bd; }
+        .project-header { display: flex; justify-content: between; align-items: center; margin-bottom: 1rem; }
+        .project-title { color: #fff; font-size: 1.3rem; font-weight: bold; flex: 1; }
+        .project-type { background: #a569bd; color: #fff; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; }
+        .project-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .meta-item { display: flex; align-items: center; gap: 0.5rem; color: #ccc; font-size: 0.9rem; }
+        .meta-item i { color: #a569bd; width: 16px; }
+        .project-description { color: #ddd; margin: 1rem 0; line-height: 1.5; }
+        .materials-section { background: #333; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+        .materials-section h4 { color: #a569bd; margin-bottom: 0.5rem; }
+        .materials-list { display: grid; gap: 0.5rem; }
+        .material-item { display: flex; justify-content: space-between; padding: 0.5rem; background: #444; border-radius: 4px; }
+        .project-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .btn-quote { background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-quote:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3); }
+        .btn-details { background: transparent; color: #a569bd; border: 1px solid #a569bd; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-details:hover { background: #a569bd; color: #fff; }
+        .no-projects { text-align: center; padding: 3rem; color: #666; }
+        .no-projects i { font-size: 3rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-screwdriver-wrench"></i> StoneBeam-NH
+        </div>
+        <ul class="nav-links">
+            <li><a href="dealer-dashboard.html">Dashboard</a></li>
+            <li><a href="#" class="active">Find Projects</a></li>
+            <li><a href="my-quotes.html">My Quotes</a></li>
+            <li><a href="dealer-profile.html">Profile</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="index.html" class="login-btn"><i class="fa-solid fa-user-tie"></i> Dealer</a>
+        </div>
+    </nav>
+
+    <div class="find-projects-container">
+        <div class="page-header">
+            <h1><i class="fa-solid fa-search"></i> Find Projects</h1>
+            <p>Discover new opportunities and grow your construction business</p>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Project Type</label>
+                    <select id="typeFilter">
+                        <option value="all">All Types</option>
+                        <option value="material-supply">Material Supply</option>
+                        <option value="renovation">Renovation</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="residential">Residential</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Location</label>
+                    <input type="text" id="locationFilter" placeholder="Enter city or area">
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="open">Open</option>
+                        <option value="quoted">Already Quoted</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="sortFilter">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="projectsContainer" class="projects-grid">
+            <!-- Projects will be loaded here -->
+        </div>
+    </div>
+
+    <script src="find-projects.js"></script>
+</body>
+</html>
